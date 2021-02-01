@@ -2,7 +2,8 @@
 DMM VR Connect SDKはDMM VR Connectと連携して、ゲーム内でのアバター読み出しと配信機能が利用できるUnity Packageです。
 
 # 内容物
-
+各必要アセットに記載のバージョンは動作確認済みバージョンです。  
+  
 **UnityPackage内** 
 
 - DVRAuth
@@ -15,11 +16,11 @@ DMM VR Connect SDKはDMM VR Connectと連携して、ゲーム内でのアバタ
 
 - DVRAvatar
 
-アバターを読み込む (使用するには[UniVRM](https://github.com/vrm-c/UniVRM)が必要です)
+アバターを読み込む (使用するには[UniVRM 0.62.0](https://github.com/vrm-c/UniVRM)が必要です)
 
 - DVRAvatarCalibrator
 
-アバターをVR機器を用いて制御するためのライブラリ (使用するには[Final IK](https://assetstore.unity.com/packages/tools/animation/final-ik-14290?locale=ja-JP)が必要です)
+アバターをVR機器を用いて制御するためのライブラリ (使用するには[Final IK 2.0](https://assetstore.unity.com/packages/tools/animation/final-ik-14290?locale=ja-JP)が必要です)
 
 - Examples/DVRAvatar
 
@@ -31,11 +32,11 @@ Oculus Questから映像と音声をRTMPで配信するライブラリ
 
 - Examples/DVRStreaming
 
-Oculus Questから映像と音声をRTMPで設定した先に配信するサンプル (使用するには[Oculus Integration](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)
+Oculus Questから映像と音声をRTMPで設定した先に配信するサンプル (使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)
 
 - Examples/VRExample
 
-VR空間内でログインからアバターのキャリブレーションまで自動で行うサンプルUIです (使用するには[Oculus Integration](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)
+VR空間内でログインからアバターのキャリブレーションまで自動で行うサンプルUIです (使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)
   
 **zip内**
 
@@ -125,3 +126,7 @@ calibrator.DoCalibration();
 ## テスト環境
 Windows 10 x64  
 Unity 2018.4.20f1
+
+## アプリ内や紹介ページにロゴを使用する
+ガイドラインに従ってDMM VR Connectのロゴを使用できます。  
+[ブランドアセット/ロゴガイドライン](https://connect.vrlab.dmm.com/support/brand-assets/)
