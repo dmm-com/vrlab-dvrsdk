@@ -32,11 +32,18 @@ Oculus Questから映像と音声をRTMPで配信するライブラリ
 
 - Examples/DVRStreaming
 
-Oculus Questから映像と音声をRTMPで設定した先に配信するサンプル (使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)
+Oculus Questから映像と音声をRTMPで設定した先に配信するサンプル (使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)  
+Oculus/OculusProjectConfigの以下の項目をONにするとURLの入力にキーボードが使用できるようになります  
+・Focus Aware  
+・Requires System Keyboard  
+  
 
-- Examples/VRExample
+- Examples/OculusVRExample
+- Examples/SteamVRExample
 
-VR空間内でログインからアバターのキャリブレーションまで自動で行うサンプルUIです (使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)
+VR空間内でログインからアバターのキャリブレーションまで自動で行うサンプルUIです  
+(OculusVRExampleを使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)  
+(SteamVRExampleを使用するには[SteamVR Unity Plugin v2.6.1](https://github.com/ValveSoftware/steamvr_unity_plugin/releases)が必要です)  
   
 **zip内**
 
@@ -87,7 +94,7 @@ Authentication.Instance.Authorize(
         }
         else
         {
-            Login Failed();
+            LoginFailed();
         }
     },
     onAuthError: exception =>
