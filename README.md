@@ -18,13 +18,9 @@ DMM VR Connect SDKはDMM VR Connectと連携して、ゲーム内でのアバタ
 
 アバターを読み込む (使用するには[UniVRM 0.62.0](https://github.com/vrm-c/UniVRM)が必要です)
 
-- DVRAvatarCalibrator
+- Examples/2DUIExample
 
-アバターをVR機器を用いて制御するためのライブラリ (使用するには[Final IK 2.0](https://assetstore.unity.com/packages/tools/animation/final-ik-14290?locale=ja-JP)が必要です)
-
-- Examples/DVRAvatar
-
-アバターを読み込みキャリブレーションしてVRで動かすまでのサンプルです
+主にスマホ用のアバターを読み込みサンプルです
 
 - DVRStreaming
 
@@ -38,8 +34,13 @@ Oculus/OculusProjectConfigの以下の項目をONにするとURLの入力にキ�
 ・Requires System Keyboard  
   
 
-- Examples/OculusVRExample
+- DVRAvatarCalibrator
+
+アバターをVR機器を用いて制御するためのライブラリ (使用するには[Final IK 2.0](https://assetstore.unity.com/packages/tools/animation/final-ik-14290?locale=ja-JP)が必要です)
+
 - Examples/SteamVRExample
+- Examples/OculusVRExample
+- Examples/UnityXRExample
 
 VR空間内でログインからアバターのキャリブレーションまで自動で行うサンプルUIです  
 (OculusVRExampleを使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)  
