@@ -45,6 +45,14 @@ Oculus/OculusProjectConfigの以下の項目をONにするとURLの入力にキ�
 VR空間内でログインからアバターのキャリブレーションまで自動で行うサンプルUIです  
 (OculusVRExampleを使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)が必要です)  
 (SteamVRExampleを使用するには[SteamVR Unity Plugin v2.6.1](https://github.com/ValveSoftware/steamvr_unity_plugin/releases)が必要です)  
+
+- DVRCamera
+
+第三者カメラやワイプ、カメラワークが出来るカメラ制御ライブラリ  
+
+- Examples/DVRCamera
+
+DVRCameraで出来るカメラワークのサンプルです  
   
 **zip内**
 
