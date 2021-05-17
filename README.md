@@ -72,7 +72,8 @@ DVRCameraで出来るカメラワークのサンプルです
 
 サードパーティライセンス一覧
   
-**unitypackageをインポートする前に必要なライブラリを事前にインポートしておいて下さい。使用しない機能はインポート時にチェックを外して下さい**
+**unitypackageをインポートする前に必要なライブラリを事前にインポートしておいて下さい。使用しない機能はインポート時にチェックを外して下さい**  
+各サンプルシーンにはPost-processing stack (v2)の設定があらかじめ適用されています。使用するにはPackage ManagerからPost ProcessingをInstallしてください
 
 # 使用方法
 ## 1.DMM VR Connectに接続して認証する
@@ -141,7 +142,7 @@ calibrator.DoCalibration();
 
 ## テスト環境
 Windows 10 x64  
-Unity 2018.4.20f1
+Unity 2019.4.26f1
 
 ## アプリ内や紹介ページにロゴを使用する
 ガイドラインに従ってDMM VR Connectのロゴを使用できます。  
