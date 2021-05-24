@@ -53,6 +53,10 @@ VR空間内でログインからアバターのキャリブレーションまで
 - Examples/DVRCamera
 
 DVRCameraで出来るカメラワークのサンプルです  
+
+- Examples/AvatarUpload
+
+ConnectにVRMをアップロードするサンプルです  
   
 **zip内**
 
@@ -125,7 +129,7 @@ var currentUser = await Authentication.Instance.Okami.GetCurrentUserAsync();
 var myUser = await Authentication.Instance.Okami.GetUserAsync(currentUser.id);
 var currentAvatar = myUser.current_avatar;
 //アバターをダウンロードしてGameObjectを取得
-CurrentModel = await Authentication.Instance.Okami.LoadAvatarVRMAsync(currentAvatar, vrmLoader.LoadVRMModelFromConnect) as GameObject;
+CurrentModel = await Authentication.Instance.Okami.LoadAvatarVRMAsync(currentAvatar, vrmLoader.LoadVRMModelFromConnectAsync) as GameObject;
 //ロードしたVRMを表示する
 vrmLoader.ShowMeshes();
 //自動まばたきを使用する
@@ -139,6 +143,13 @@ calibrator.LoadModel(CurrentModel);
 calibrator.DoCalibration();
 ```
 シーンに置いたVRMCalibratorにHMD、左手、右手を設定してDoCalibrationするだけでアバターを動かすことが出来ます
+
+## 4. アバターを使い終わったらリソースを解放する
+```csharp
+vrmLoader.Dispose();
+```
+GameObject.Destroy(CurrentModel);ではメッシュやテクスチャ等のリソースは解放されません(GC時に回収されます)。
+VRMLoader.Dispose()で明示的に解放する必要があります。
 
 ## テスト環境
 Windows 10 x64  
