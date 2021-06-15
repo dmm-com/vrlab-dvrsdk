@@ -84,9 +84,9 @@ ConnectにVRMをアップロードするサンプルです
 # 使用方法
 ## 1.DMM VR Connectに接続して認証する
 
-まず初めに取得したAPIキーを設定します。  
+まず初めに取得したクライアントIDを設定します。  
 Unity上で`Assets/Resources`フォルダを開き右クリック->Create->DVRSDK->Create Configrationを選択し、出来たファイル名を`SdkSettings`とします  
-InspectorでClient_idに発行されたAPIキーを入力してください。  
+InspectorでClient_idに発行されたクライアントIDを入力してください。  
 
 ```csharp
 //Unity用の初期化を行う
