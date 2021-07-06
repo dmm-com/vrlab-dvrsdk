@@ -59,6 +59,11 @@ DVRCameraで出来るカメラワークのサンプルです
 - Examples/AvatarUpload
 
 ConnectにVRMをアップロードするサンプルです  
+
+- Examples/Common/LipSync
+
+Oculus Lipsync Unity Integrationによるリップシンクのコンポーネントです。リップシンクが不要な場合インポートから除外してください  
+(使用するには[Oculus Integration 20.1](https://developer.oculus.com/downloads/package/unity-integration/)もしくは[Oculus Lipsync Unity Integration v29](https://developer.oculus.com/downloads/package/oculus-lipsync-unity/29.0.0/)が必要です)  
   
 **zip内**
 
