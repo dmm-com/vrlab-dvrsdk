@@ -1,0 +1,167 @@
+{
+  "actions": [
+    {
+      "name": "/actions/default/in/Pose",
+      "type": "pose"
+    },
+    {
+      "name": "/actions/default/in/SkeletonLeftHand",
+      "type": "skeleton",
+      "skeleton": "/skeleton/hand/left"
+    },
+    {
+      "name": "/actions/default/in/SkeletonRightHand",
+      "type": "skeleton",
+      "skeleton": "/skeleton/hand/right"
+    },
+    {
+      "name": "/actions/default/in/SelectButton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/CancelButton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/StickButton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/MenuButton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/TriggerButton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/GripButton",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/StickAxis",
+      "type": "vector2"
+    },
+    {
+      "name": "/actions/default/out/Haptic",
+      "type": "vibration"
+    }
+  ],
+  "action_sets": [
+    {
+      "name": "/actions/default",
+      "usage": "single"
+    }
+  ],
+  "default_bindings": [
+    {
+      "controller_type": "vive_controller",
+      "binding_url": "bindings_vive_controller.json"
+    },
+    {
+      "controller_type": "oculus_touch",
+      "binding_url": "bindings_oculus_touch.json"
+    },
+    {
+      "controller_type": "knuckles",
+      "binding_url": "bindings_knuckles.json"
+    },
+    {
+      "controller_type": "holographic_controller",
+      "binding_url": "bindings_holographic_controller.json"
+    },
+    {
+      "controller_type": "vive_cosmos_controller",
+      "binding_url": "bindings_vive_cosmos_controller.json"
+    },
+    {
+      "controller_type": "vive_cosmos",
+      "binding_url": "binding_vive_cosmos.json"
+    },
+    {
+      "controller_type": "vive",
+      "binding_url": "binding_vive.json"
+    },
+    {
+      "controller_type": "indexhmd",
+      "binding_url": "binding_index_hmd.json"
+    },
+    {
+      "controller_type": "vive_pro",
+      "binding_url": "binding_vive_pro.json"
+    },
+    {
+      "controller_type": "rift",
+      "binding_url": "binding_rift.json"
+    },
+    {
+      "controller_type": "holographic_hmd",
+      "binding_url": "binding_holographic_hmd.json"
+    },
+    {
+      "controller_type": "vive_tracker_camera",
+      "binding_url": "binding_vive_tracker_camera.json"
+    },
+    {
+      "controller_type": "vive_tracker_chest",
+      "binding_url": "binding_vive_tracker_chest.json"
+    },
+    {
+      "controller_type": "vive_tracker_head",
+      "binding_url": "binding_vive_tracker_head.json"
+    },
+    {
+      "controller_type": "vive_tracker_left_elbow",
+      "binding_url": "binding_vive_tracker_left_elbow.json"
+    },
+    {
+      "controller_type": "vive_tracker_left_foot",
+      "binding_url": "binding_vive_tracker_left_foot.json"
+    },
+    {
+      "controller_type": "vive_tracker_left_hand",
+      "binding_url": "binding_vive_tracker_left_hand.json"
+    },
+    {
+      "controller_type": "vive_tracker_left_knee",
+      "binding_url": "binding_vive_tracker_left_knee.json"
+    },
+    {
+      "controller_type": "vive_tracker_left_shoulder",
+      "binding_url": "binding_vive_tracker_left_shoulder.json"
+    },
+    {
+      "controller_type": "vive_tracker_right_elbow",
+      "binding_url": "binding_vive_tracker_right_elbow.json"
+    },
+    {
+      "controller_type": "vive_tracker_right_foot",
+      "binding_url": "binding_vive_tracker_right_foot.json"
+    },
+    {
+      "controller_type": "vive_tracker_right_hand",
+      "binding_url": "binding_vive_tracker_right_hand.json"
+    },
+    {
+      "controller_type": "vive_tracker_right_knee",
+      "binding_url": "binding_vive_tracker_right_knee.json"
+    },
+    {
+      "controller_type": "vive_tracker_right_shoulder",
+      "binding_url": "binding_vive_tracker_right_shoulder.json"
+    },
+    {
+      "controller_type": "vive_tracker_waist",
+      "binding_url": "binding_vive_tracker_waist.json"
+    }
+  ],
+  "localization": [
+    {
+      "language_tag": "en_US",
+      "/actions/default/in/Pose": "Pose",
+      "/actions/default/in/SkeletonLeftHand": "Skeleton (Left)",
+      "/actions/default/in/SkeletonRightHand": "Skeleton (Right)",
+      "/actions/default/out/Haptic": "Haptic"
+    }
+  ]
+}
