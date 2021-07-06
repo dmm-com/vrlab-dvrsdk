@@ -1,4 +1,3 @@
-using DVRSDK.Avatar.Tracking;
 using DVRSDK.Plugins.Input;
 using System.Collections.Generic;
 using UnityEngine;
