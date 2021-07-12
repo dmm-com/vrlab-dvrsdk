@@ -24,11 +24,18 @@ Shader "DVRSDK/Mirror"
 				float2 uv : TEXCOORD0;
 				float4 refl : TEXCOORD1;
 				float4 pos : SV_POSITION;
+
+				UNITY_VERTEX_OUTPUT_STEREO
 			};
 
 			v2f vert(VertexInput v)
 			{
 				v2f o;
+
+				UNITY_SETUP_INSTANCE_ID(v);
+				UNITY_INITIALIZE_OUTPUT(v2f, o);
+				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
+
 				o.pos = UnityObjectToClipPos(v.vertex);
 				o.uv = TRANSFORM_TEX(v.uv0, _MainTex);
 				o.refl = ComputeScreenPos(o.pos);
