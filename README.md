@@ -85,20 +85,20 @@ Oculus Lipsync Unity Integrationによるリップシンクのコンポーネン
 各サンプルシーンにはPost-processing stack (v2)の設定があらかじめ適用されています。使用するにはPackage ManagerからPost ProcessingをInstallしてください
 
 # 使用方法
-## 1.DMM VR Connectに接続して認証する
+## 1. DMM VR Connectに接続して認証する
 
 まず初めに取得したクライアントIDを設定します。  
 Unity上で`Assets/Resources`フォルダを開き右クリック->Create->DVRSDK->Create Configrationを選択し、出来たファイル名を`SdkSettings`とします  
 InspectorでClient_idに発行されたクライアントIDを入力してください。  
 
 ```csharp
-//Unity用の初期化を行う
+// Unity用の初期化を行う
 var config = new DVRAuthConfiguration(client_id, new UnitySettingStore(), new UniWebRequest(), new NewtonsoftJsonSerializer());
 
-//認証処理の初期化を行う
+// 認証処理の初期化を行う
 Authentication.Instance.Init(config);
 
-//DMM VR Connectに接続して認証する
+// DMM VR Connectに接続して認証する
 Authentication.Instance.Authorize(
     openBrowser: url =>
     {
@@ -126,18 +126,18 @@ Authentication.Instance.Authorize(
 
 ## 2. DMM VR Connectにアップロードされたアバターを読み込む
 ```csharp
-//VRMローダー初期化
+// VRMローダー初期化
 vrmLoader = new VRMLoader();
-//カレントユーザーを取得
+// カレントユーザーを取得
 var currentUser = await Authentication.Instance.Okami.GetCurrentUserAsync();
-//自身のユーザーIDからユーザー情報を取得してカレントアバターを取得(データ暗号化)
+// 自身のユーザーIDからユーザー情報を取得してカレントアバターを取得(データ暗号化)
 var myUser = await Authentication.Instance.Okami.GetUserAsync(currentUser.id);
 var currentAvatar = myUser.current_avatar;
-//アバターをダウンロードしてGameObjectを取得
+// アバターをダウンロードしてGameObjectを取得
 CurrentModel = await Authentication.Instance.Okami.LoadAvatarVRMAsync(currentAvatar, vrmLoader.LoadVRMModelFromConnectAsync) as GameObject;
-//ロードしたVRMを表示する
+// ロードしたVRMを表示する
 vrmLoader.ShowMeshes();
-//自動まばたきを使用する
+// 自動まばたきを使用する
 vrmLoader.AddAutoBlinkComponent();
 ```
 認証後は簡単にDMM VR Connectにアップロードされたアバターをロードしてゲーム内に表示できます。
