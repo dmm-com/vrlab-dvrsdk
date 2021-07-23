@@ -13,7 +13,6 @@ namespace DVRSDK.Avatar
 {
     public class VRMLoader : IDisposable
     {
-
         private VRMImporterContext currentContext;
 
         public GameObject Model => currentContext == null ? null : currentContext.Root;
@@ -31,7 +30,6 @@ namespace DVRSDK.Avatar
 #if UNIVRM_0_68_IMPORTER
             currentContext.DisposeOnGameObjectDestroyed();
 #endif
-
         }
 
         /// <summary>
@@ -41,7 +39,7 @@ namespace DVRSDK.Avatar
         /// <returns>VRMモデルのGameObject</returns>
         public GameObject LoadVrmModelFromFile(string vrmFilePath)
         {
-            //ファイルをByte配列に読み込みます
+            // ファイルをByte配列に読み込みます
             var bytes = File.ReadAllBytes(vrmFilePath);
 
             return LoadVrmModelFromByteArray(bytes);
@@ -55,7 +53,7 @@ namespace DVRSDK.Avatar
         /// <returns></returns>
         public VRMMetaObject LoadVrmMetaFromFile(string vrmFilePath, bool createThumbnail)
         {
-            //ファイルをByte配列に読み込みます
+            // ファイルをByte配列に読み込みます
             var bytes = File.ReadAllBytes(vrmFilePath);
 
             return LoadVrmMetaFromByteArray(bytes, createThumbnail);
@@ -68,7 +66,7 @@ namespace DVRSDK.Avatar
         /// <returns>VRMモデルのGameObject</returns>
         public async Task<GameObject> LoadVrmModelFromFileAsync(string vrmFilePath)
         {
-            //ファイルをByte配列に読み込みます
+            // ファイルをByte配列に読み込みます
             var bytes = await ReadAllBytesAsync(vrmFilePath);
 
             return await LoadVrmModelFromByteArrayAsync(bytes);
@@ -82,7 +80,7 @@ namespace DVRSDK.Avatar
         /// <returns></returns>
         public async Task<VRMMetaObject> LoadVrmMetaFromFileAsync(string vrmFilePath, bool createThumbnail)
         {
-            //ファイルをByte配列に読み込みます
+            // ファイルをByte配列に読み込みます
             var bytes = await ReadAllBytesAsync(vrmFilePath);
 
             return await LoadVrmMetaFromByteArrayAsync(bytes, createThumbnail);
@@ -98,26 +96,23 @@ namespace DVRSDK.Avatar
 #if UNIVRM_LEGACY_IMPORTER
             InitializeVrmContextFromByteArray(vrmByteArray);
 
-            //同期処理で読み込みます
+            // 同期処理で読み込みます
             currentContext.Load();
 
-            //読込が完了するとcontext.RootにモデルのGameObjectが入っています
+            // 読込が完了するとcontext.RootにモデルのGameObjectが入っています
             var root = currentContext.Root;
 
             return root;
-
 #elif UNIVRM_0_68_IMPORTER
-
             var parser = new GltfParser();
             parser.ParseGlb(vrmByteArray);
 
             currentContext = new VRMImporterContext(parser);
             currentContext.Load();
-            
 
             return currentContext.Root;
 #else
-    return null;
+            return null;
 #endif
         }
 
@@ -131,7 +126,7 @@ namespace DVRSDK.Avatar
         {
             InitializeVrmContextFromByteArray(vrmByteArray);
 
-            return GetMeta(createThumbnail);            
+            return GetMeta(createThumbnail);
         }
 
         /// <summary>
@@ -154,14 +149,13 @@ namespace DVRSDK.Avatar
 #if UNIVRM_LEGACY_IMPORTER
             await InitializeVrmContextFromByteArrayAsync(vrmByteArray);
 
-            //非同期処理(Task)で読み込みます
+            // 非同期処理(Task)で読み込みます
             await currentContext.LoadAsyncTask();
 
-            //読込が完了するとcontext.RootにモデルのGameObjectが入っています
+            // 読込が完了するとcontext.RootにモデルのGameObjectが入っています
             var root = currentContext.Root;
 
             return root;
-
 #elif UNIVRM_0_68_IMPORTER
             var parser = new GltfParser();
             await Task.Run(() =>
@@ -173,7 +167,6 @@ namespace DVRSDK.Avatar
             await currentContext.LoadAsync();
 
             return currentContext.Root;
-
 #else
             return null;
 #endif
@@ -209,17 +202,15 @@ namespace DVRSDK.Avatar
         public void InitializeVrmContextFromByteArray(byte[] vrmByteArray)
         {
 #if UNIVRM_LEGACY_IMPORTER
-            //VRMImporterContextがVRMを読み込む機能を提供します
+            // VRMImporterContextがVRMを読み込む機能を提供します
             currentContext = new VRMImporterContext();
 
             // GLB形式でJSONを取得しParseします
             currentContext.ParseGlb(vrmByteArray);
-
 #elif UNIVRM_0_68_IMPORTER
             var parser = new GltfParser();
             parser.ParseGlb(vrmByteArray);
             currentContext = new VRMImporterContext(parser);
-
 #else
 #endif
         }
@@ -231,12 +222,11 @@ namespace DVRSDK.Avatar
         public async Task InitializeVrmContextFromByteArrayAsync(byte[] vrmByteArray)
         {
 #if UNIVRM_LEGACY_IMPORTER
-            //VRMImporterContextがVRMを読み込む機能を提供します
+            // VRMImporterContextがVRMを読み込む機能を提供します
             currentContext = new VRMImporterContext();
 
             // GLB形式でJSONを取得しParseします
             await Task.Run(() => currentContext.ParseGlb(vrmByteArray));
-
 #elif UNIVRM_0_68_IMPORTER
             var parser = new GltfParser();
             await Task.Run(() => parser.ParseGlb(vrmByteArray));
@@ -283,18 +273,17 @@ namespace DVRSDK.Avatar
 
         public void SetupFirstPerson(Camera firstPersonCamera)
         {
-            //HMDに顔が映りこまないようにFirstPersonの初期化
+            // HMDに顔が映りこまないようにFirstPersonの初期化
             var vrmFirstPerson = Model.GetComponent<VRMFirstPerson>();
             if (vrmFirstPerson != null) vrmFirstPerson.Setup();
 
             foreach (var camera in GameObject.FindObjectsOfType<Camera>())
             {
                 camera.cullingMask = (camera == firstPersonCamera)
-                    ? camera.cullingMask & ~(1 << VRMFirstPerson.THIRDPERSON_ONLY_LAYER) //ThirdPersonだけ無効
-                    : camera.cullingMask & ~(1 << VRMFirstPerson.FIRSTPERSON_ONLY_LAYER) //FirstPersonだけ無効
+                    ? camera.cullingMask & ~(1 << VRMFirstPerson.THIRDPERSON_ONLY_LAYER) // ThirdPersonだけ無効
+                    : camera.cullingMask & ~(1 << VRMFirstPerson.FIRSTPERSON_ONLY_LAYER) // FirstPersonだけ無効
                     ;
             }
-
         }
 
         public void Dispose()

@@ -20,6 +20,5 @@ public class VRInputInitializer : MonoBehaviour
         vrCursor.rayTransform = VRCursorRayTransform;
 
         Globals.buttonInputInterface = buttonInputInterfaceComponent.GetComponent<ButtonInputInterface>();
-
     }
 }

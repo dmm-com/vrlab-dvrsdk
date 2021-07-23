@@ -14,7 +14,7 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
         private Transform trackersParent = null;
         public Transform TrackersParent => trackersParent;
 
-        //外部からTransformを指定されたときはそちらをそのまま使用する。無い場合は自動で作成して割り当てる
+        // 外部からTransformを指定されたときはそちらをそのまま使用する。無い場合は自動で作成して割り当てる
         [Header("使用したい部位をすべて定義します")]
         public readonly TrackerTarget[] TrackerTargets = new TrackerTarget[]
         {
@@ -28,7 +28,7 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
 
         public TrackerTarget GetTrackerTarget(TrackerPositions trackerPosition) => TrackerTargets.FirstOrDefault(d => d.TrackerPosition == trackerPosition && d.PoseIsValid);
 
-        //暫定：SteamVRと同じ
+        // 暫定: SteamVRと同じ
         public Vector3 GetIKOffsetPosition(TrackerPositions targetPosition, TrackingDeviceType deviceType)
         {
             if (targetPosition == TrackerPositions.LeftHand && deviceType == TrackingDeviceType.Controller)
@@ -44,6 +44,7 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
                 return Vector3.zero;
             }
         }
+
         public Quaternion GetIKOffsetRotation(TrackerPositions targetPosition, TrackingDeviceType deviceType)
         {
             if (targetPosition == TrackerPositions.LeftHand && deviceType == TrackingDeviceType.Controller)
@@ -95,10 +96,10 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
         private void UpdateAllTrackerData()
         {
             InputTracking.GetNodeStates(nodeStates);
-            //全トラッカーの位置データ更新
+            // 全トラッカーの位置データ更新
             foreach (var trackerTarget in TrackerTargets)
             {
-                if (trackerTarget.SourceTransform != null) //スキップ設定、外部CameraRig等ですでに位置データ処理しているときを想定
+                if (trackerTarget.SourceTransform != null) // スキップ設定、外部CameraRig等ですでに位置データ処理しているときを想定
                 {
                     trackerTarget.TargetTransform.localPosition = trackerTarget.SourceTransform.localPosition;
                     trackerTarget.TargetTransform.localRotation = trackerTarget.SourceTransform.localRotation;
@@ -123,7 +124,7 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
                         SetTransformPosition(trackerTarget.TargetTransform, XRNode.RightHand);
                         trackerTarget.PoseIsValid = true;
                     }
-                    else if (trackerTarget.DeviceIndex != 0) //Index番号でトラッカー位置取得するとき
+                    else if (trackerTarget.DeviceIndex != 0) // Index番号でトラッカー位置取得するとき
                     {
                         foreach (var node in nodeStates)
                         {
@@ -140,6 +141,7 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
                 }
             }
         }
+
         /// <summary>
         /// 自動で指定したデバイスを指定した部位に割り当て
         /// </summary>
@@ -147,7 +149,7 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
         /// <param name="worldUpVector">HmdTransform.up</param>
         public void AutoAttachTrackerTargets(Vector3? worldForwardVector = null, Vector3? worldUpVector = null)
         {
-            //頭
+            // 頭
             var trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.Head);
             trackerTarget.DeviceIndex = 0;
             trackerTarget.UseDeviceType = TrackingDeviceType.HMD;
@@ -155,41 +157,40 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
             var forward = worldForwardVector ?? trackerTarget.TargetTransform.forward;
             var up = worldUpVector ?? trackerTarget.TargetTransform.up;
 
-            //左手
+            // 左手
             trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.LeftHand);
             trackerTarget.DeviceIndex = 0;
             trackerTarget.UseDeviceType = TrackingDeviceType.Controller;
 
-            //右手
+            // 右手
             trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.RightHand);
             trackerTarget.DeviceIndex = 0;
             trackerTarget.UseDeviceType = TrackingDeviceType.Controller;
 
             InputTracking.GetNodeStates(nodeStates);
 
-
             var trackers = nodeStates.Where(d => d.nodeType == XRNode.HardwareTracker).ToList();
 
-            //トラッカー残数が1で腰がトラッカーの時は足の処理をスキップ
+            // トラッカー残数が1で腰がトラッカーの時は足の処理をスキップ
             trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.Waist);
             if (trackers.Count != 1 || trackerTarget == null || trackerTarget.UseDeviceType != TrackingDeviceType.GenericTracker)
             {
-                //左足
+                // 左足
                 trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.LeftFoot);
                 AttachIndexDevice(trackerTarget, trackers,
                     t => t.OrderBy(d => GetPosition(d).y)
-                          .Take(2)
-                          .OrderBy(d => RecenterPoint(forward, up, GetPosition(d)).x));
+                            .Take(2)
+                            .OrderBy(d => RecenterPoint(forward, up, GetPosition(d)).x));
 
-                //右足
+                // 右足
                 trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.RightFoot);
                 AttachIndexDevice(trackerTarget, trackers,
                     t => t.OrderBy(d => GetPosition(d).y)
-                          .Take(2)
-                          .OrderByDescending(d => RecenterPoint(forward, up, GetPosition(d)).x));
+                            .Take(2)
+                            .OrderByDescending(d => RecenterPoint(forward, up, GetPosition(d)).x));
             }
 
-            //腰
+            // 腰
             trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.Waist);
             AttachIndexDevice(trackerTarget, trackers,
                 t => t.OrderByDescending(d => GetPosition(d).y));
@@ -216,7 +217,6 @@ namespace DVRSDK.Avatar.Tracking.UnityXR
         private void AttachIndexDevice(TrackerTarget trackerTarget, List<XRNodeState> trackers,
             Func<IEnumerable<XRNodeState>, IEnumerable<XRNodeState>> trackerSelector)
         {
-
             if (trackerTarget == null) return;
 
             var tracker = trackerSelector(trackers).FirstOrDefault();

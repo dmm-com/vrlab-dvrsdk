@@ -46,7 +46,7 @@ namespace DVRSDK.Auth
             {
                 using (var request = UnityWebRequest.Put(uri, postBody))
                 {
-                    request.method = "POST"; //Trick for POST with body
+                    request.method = "POST"; // Trick for POST with body
 
                     request.SetRequestHeader("Content-Type", "application/json");
                     foreach (var pair in headers)
@@ -91,6 +91,7 @@ namespace DVRSDK.Auth
             return ret;
         }
     }
+
     public static class UnityWebRequestAsyncOperationExtension
     {
         public static UnityWebRequestAsyncOperationAwaiter GetAwaiter(this UnityWebRequestAsyncOperation asyncOperation)
@@ -98,6 +99,7 @@ namespace DVRSDK.Auth
             return new UnityWebRequestAsyncOperationAwaiter(asyncOperation);
         }
     }
+
     public class UnityWebRequestAsyncOperationAwaiter : INotifyCompletion
     {
         UnityWebRequestAsyncOperation _asyncOperation;

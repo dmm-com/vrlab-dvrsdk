@@ -17,8 +17,7 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
     [Tooltip("A world space pointer for this canvas")]
     public GameObject pointer;
 
-    protected VRRayCaster()
-    { }
+    protected VRRayCaster() { }
 
     [NonSerialized]
     private Canvas m_Canvas;
@@ -52,10 +51,9 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
         }
     }
 
-
     private void Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList, Ray ray, bool checkForBlocking)
     {
-        //This function is closely based on
+        // This function is closely based on
         //void GraphicRaycaster.Raycast(PointerEventData eventData, List<RaycastResult> resultAppendList)
 
         if (canvas == null)
@@ -148,7 +146,6 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
         }
     }
 
-
     /// <summary>
     /// Perform a raycast into the screen and collect all graphics underneath it.
     /// </summary>
@@ -156,7 +153,7 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
     static readonly List<RaycastHit> s_SortedGraphics = new List<RaycastHit>();
     private void GraphicRaycast(Canvas canvas, Ray ray, List<RaycastHit> results)
     {
-        //This function is based closely on :
+        // This function is based closely on :
         // void GraphicRaycaster.Raycast(Canvas canvas, Camera eventCamera, Vector2 pointerPosition, List<Graphic> results)
         // But modified to take a Ray instead of a canvas pointer, and also to explicitly ignore
         // the graphic associated with the pointer
@@ -174,7 +171,7 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
             Vector3 worldPos;
             if (RayIntersectsRectTransform(graphic.rectTransform, ray, out worldPos))
             {
-                //Work out where this is on the screen for compatibility with existing Unity UI code
+                // Work out where this is on the screen for compatibility with existing Unity UI code
                 Vector2 screenPos = eventCamera.WorldToScreenPoint(worldPos);
                 // mask/image intersection - See Unity docs on eventAlphaThreshold for when this does anything
                 if (graphic.Raycast(screenPos, eventCamera))
@@ -195,6 +192,7 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
             results.Add(s_SortedGraphics[i]);
         }
     }
+
     /// <summary>
     /// Get screen position of worldPosition contained in this RaycastResult
     /// </summary>
@@ -205,7 +203,6 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
         // In future versions of Uinty RaycastResult will contain screenPosition so this will not be necessary
         return eventCamera.WorldToScreenPoint(raycastResult.worldPosition);
     }
-
 
     /// <summary>
     /// Detects whether a ray intersects a RectTransform and if it does also
@@ -249,14 +246,12 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
         }
     }
 
-
     struct RaycastHit
     {
         public Graphic graphic;
         public Vector3 worldPos;
         public bool fromMouse;
     };
-
 
     public void OnPointerEnter(PointerEventData e)
     {
@@ -268,7 +263,6 @@ public class VRRayCaster : GraphicRaycaster, IPointerEnterHandler
             {
                 inputModule.activeGraphicRaycaster = this;
             }
-
         }
     }
 }

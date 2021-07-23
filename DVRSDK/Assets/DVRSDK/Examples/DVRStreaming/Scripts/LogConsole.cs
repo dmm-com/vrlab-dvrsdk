@@ -4,12 +4,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class LogConsole : MonoBehaviour
 {
     // ログを何個まで保持するか
     [SerializeField] private int MaxLogCount = 29;
-
 
     [SerializeField] private Text textObject = null;
 
@@ -26,22 +24,18 @@ public class LogConsole : MonoBehaviour
     // ログの文字列を結合するのに使う
     private StringBuilder StringBuilder = new StringBuilder();
 
-
     void OnEnable()
     {
         Application.logMessageReceived += OnLogMessageReceived;
     }
-
 
     void OnDisable()
     {
         Application.logMessageReceived -= OnLogMessageReceived;
     }
 
-
     void OnLogMessageReceived(string text, string stackTrace, LogType type)
     {
-
         // https://docs.unity3d.com/Manual/StyledText.html#ColorNames
         string color = null;
         switch (type)

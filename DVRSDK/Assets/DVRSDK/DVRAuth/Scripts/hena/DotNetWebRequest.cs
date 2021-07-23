@@ -46,7 +46,7 @@ namespace DVRSDK.Auth
 
                 CheckHttpClient();
                 ClearDefaultHeaders();
-                
+
                 using (var response = await httpClient.PostAsync(uri, content))
                 {
                     return await ProcessRequest(response);
@@ -77,19 +77,19 @@ namespace DVRSDK.Auth
                 };
                 httpClient = new HttpClient(httpClientHandler);
 
-                // タイムアウトをセット（オプション）
+                // タイムアウトをセット(オプション)
                 httpClient.Timeout = TimeSpan.FromSeconds(10.0);
             }
         }
 
         private void ClearDefaultHeaders()
         {
-            // ユーザーエージェント文字列をセット（オプション）
+            // ユーザーエージェント文字列をセット(オプション)
             httpClient.DefaultRequestHeaders.Add(
                 "User-Agent",
                 "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko");
 
-            // 受け入れ言語をセット（オプション）
+            // 受け入れ言語をセット(オプション)
             httpClient.DefaultRequestHeaders.Add("Accept-Language", "ja-JP");
         }
 

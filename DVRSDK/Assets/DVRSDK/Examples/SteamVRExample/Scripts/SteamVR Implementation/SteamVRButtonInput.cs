@@ -34,7 +34,6 @@ namespace DVRSDK.Plugins.Input
             if (SteamVR_Actions.default_TriggerButton.GetStateDown(SteamVR_Input_Sources.RightHand)) KeyDownEvent?.Invoke(this, new KeyEventArgs(KeyNames.Trigger, false));
             if (SteamVR_Actions.default_GripButton.GetStateDown(SteamVR_Input_Sources.RightHand)) KeyDownEvent?.Invoke(this, new KeyEventArgs(KeyNames.Grip, false));
 
-
             if (SteamVR_Actions.default_SelectButton.GetStateUp(SteamVR_Input_Sources.LeftHand)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Select, true));
             if (SteamVR_Actions.default_CancelButton.GetStateUp(SteamVR_Input_Sources.LeftHand)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Cancel, true));
             if (SteamVR_Actions.default_StickButton.GetStateUp(SteamVR_Input_Sources.LeftHand)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Stick, true));
@@ -49,8 +48,8 @@ namespace DVRSDK.Plugins.Input
             if (SteamVR_Actions.default_TriggerButton.GetStateUp(SteamVR_Input_Sources.RightHand)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Trigger, false));
             if (SteamVR_Actions.default_GripButton.GetStateUp(SteamVR_Input_Sources.RightHand)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Grip, false));
 
-            var leftStickAxis = SteamVR_Actions.default_StickAxis.GetAxis(SteamVR_Input_Sources.LeftHand); //左スティック
-            var rightStickAxis = SteamVR_Actions.default_StickAxis.GetAxis(SteamVR_Input_Sources.RightHand); //右スティック
+            var leftStickAxis = SteamVR_Actions.default_StickAxis.GetAxis(SteamVR_Input_Sources.LeftHand); // 左スティック
+            var rightStickAxis = SteamVR_Actions.default_StickAxis.GetAxis(SteamVR_Input_Sources.RightHand); // 右スティック
             if (leftStickAxis != lastLeftStickAxis)
             {
                 lastLeftStickAxis = leftStickAxis;

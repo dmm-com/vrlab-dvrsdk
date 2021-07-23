@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace DVRSDK.Test
 {
-
     public class Example2DAvatarManager : MonoBehaviour
     {
         [SerializeField]
@@ -18,6 +17,5 @@ namespace DVRSDK.Test
             dmmVRConnectUI.ShowVRM();
             dmmVRConnectUI.AddAutoBlink();
         }
-
     }
 }

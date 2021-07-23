@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class WindowsDialogs
 {
-
 #if UNITY_STANDALONE_WIN
     #region GetOpenFileName
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
@@ -37,16 +36,20 @@ public class WindowsDialogs
         public int reservedInt = 0;
         public int flagsEx = 0;
     }
+
     [DllImport("Comdlg32.dll", SetLastError = true, ThrowOnUnmappableChar = true, CharSet = CharSet.Auto)]
     public static extern bool GetOpenFileName([In, Out] OpenFileName ofn);
+
     public static bool GetOpenFileName1([In, Out] OpenFileName ofn)
     {
         return GetOpenFileName(ofn);
     }
+
     static string Filter(params string[] filters)
     {
         return string.Join("\0", filters) + "\0";
     }
+
     public static string OpenFileDialog(string title, string extension)
     {
         OpenFileName ofn = new OpenFileName();
@@ -60,7 +63,7 @@ public class WindowsDialogs
         ofn.initialDir = UnityEngine.Application.dataPath;
         ofn.title = title;
         ofn.defExt = "PNG";
-        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 /*| 0x00000200*/ | 0x00000008;//OFN_EXPLORER|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST| OFN_ALLOWMULTISELECT|OFN_NOCHANGEDIR
+        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 /*| 0x00000200*/ | 0x00000008; // OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST | OFN_ALLOWMULTISELECT | OFN_NOCHANGEDIR
         if (!GetOpenFileName(ofn))
         {
             return null;
@@ -68,7 +71,6 @@ public class WindowsDialogs
         }        // later, possibly in some other method:
 
         return ofn.file;
-
     }
 
     [DllImport("Comdlg32.dll", SetLastError = true, ThrowOnUnmappableChar = true, CharSet = CharSet.Auto)]
@@ -86,7 +88,7 @@ public class WindowsDialogs
         ofn.initialDir = UnityEngine.Application.dataPath;
         ofn.title = title;
         ofn.defExt = "PNG";
-        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 /*| 0x00000200*/ | 0x00000008 | 0x00000002;//OFN_EXPLORER|OFN_FILEMUSTEXIST|OFN_PATHMUSTEXIST| OFN_ALLOWMULTISELECT|OFN_NOCHANGEDIR | OFN_OVERWRITEPROMPT
+        ofn.flags = 0x00080000 | 0x00001000 | 0x00000800 /*| 0x00000200*/ | 0x00000008 | 0x00000002; // OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_PATHMUSTEXIST| OFN_ALLOWMULTISELECT | OFN_NOCHANGEDIR | OFN_OVERWRITEPROMPT
         if (!GetSaveFileName(ofn))
         {
             return null;
@@ -94,11 +96,10 @@ public class WindowsDialogs
         }        // later, possibly in some other method:
 
         return ofn.file;
-
     }
     #endregion
 #else
-    //Windows環境以外でビルドエラーにならない為の事故防止
+    // Windows環境以外でビルドエラーにならない為の事故防止
     public static string OpenFileDialog(string title, string extension)
     {
         return null;
@@ -108,6 +109,5 @@ public class WindowsDialogs
     {
         return null;
     }
-
 #endif
 }

@@ -1,5 +1,4 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace UnityEngine.EventSystems
 {
@@ -13,15 +12,13 @@ namespace UnityEngine.EventSystems
         /// </summary>
         protected const int kNoEventMaskSet = -1;
 
-
         /// <summary>
         /// Layer mask used to filter events. Always combined with the camera's culling mask if a camera is used.
         /// </summary>
         [SerializeField]
         protected LayerMask m_EventMask = kNoEventMaskSet;
 
-        protected VRPhysicsRaycaster()
-        { }
+        protected VRPhysicsRaycaster() { }
 
         public override Camera eventCamera
         {
@@ -65,7 +62,6 @@ namespace UnityEngine.EventSystems
             set { m_EventMask = value; }
         }
 
-
         /// <summary>
         /// Perform a raycast using the worldSpaceRay in eventData.
         /// </summary>
@@ -107,6 +103,7 @@ namespace UnityEngine.EventSystems
                 }
             }
         }
+
         /// <summary>
         /// Get screen position of this world position as seen by the event camera of this VRPhysicsRaycaster
         /// </summary>

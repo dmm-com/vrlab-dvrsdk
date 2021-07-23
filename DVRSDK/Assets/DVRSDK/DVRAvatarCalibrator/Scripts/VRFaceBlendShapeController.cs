@@ -9,11 +9,9 @@ namespace DVRSDK.Avatar
 {
     public class VRFaceBlendShapeController : MonoBehaviour
     {
-
         private FaceController faceController;
         private int lastStickPointIndex = 0;
         private BlendShapePreset[] blendShapePresets = new BlendShapePreset[] { BlendShapePreset.Neutral, BlendShapePreset.Sorrow, BlendShapePreset.Joy, BlendShapePreset.Fun, BlendShapePreset.Angry };
-
 
         public void LoadModel(GameObject model)
         {
@@ -46,17 +44,16 @@ namespace DVRSDK.Avatar
             }
         }
 
-        //
-        //  ＼ 1 ／
-        //  4( 0 )2
-        //  ／ 3 ＼
+        // ＼ 1 ／
+        // 4( 0 )2
+        // ／ 3 ＼
         private int GetStickPointIndex(float x, float y)
         {
             int index = 0;
             var point_distance = x * x + y * y;
-            var r = 2.0f / 5.0f; //半径
+            var r = 2.0f / 5.0f; // 半径
             var r2 = r * r;
-            if (point_distance < r2) //円内
+            if (point_distance < r2) // 円内
             {
                 return 0;
             }
@@ -65,7 +62,7 @@ namespace DVRSDK.Avatar
                 new UPoint { x = 0.5f, y = 0 },
                 new UPoint { x = 0, y = -0.5f },
                 new UPoint { x = -0.5f, y = 0 },
-            }; 
+            };
             float minLength = float.MaxValue;
             for (int i = 0; i < points.Length; i++)
             {
@@ -80,6 +77,7 @@ namespace DVRSDK.Avatar
             return index;
         }
     }
+
     public struct UPoint
     {
         public float x;

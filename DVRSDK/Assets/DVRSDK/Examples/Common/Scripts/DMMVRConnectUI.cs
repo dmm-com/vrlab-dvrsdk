@@ -15,7 +15,6 @@ using DVRSDK.Auth.Okami.Models;
 
 namespace DVRSDK.Test
 {
-
     public class DMMVRConnectUI : MonoBehaviour
     {
         [NonSerialized]
@@ -52,7 +51,7 @@ namespace DVRSDK.Test
             { ApiRequestErrors.Forbidden, "Request forbidden" },
             { ApiRequestErrors.Unregistered, "User unregistered" },
             { ApiRequestErrors.Unverified, "User email unverified" },
-         };
+        };
 
         private CurrentUserModel currentUser = null;
 
@@ -331,7 +330,6 @@ namespace DVRSDK.Test
                 }
             }
         }
-
     }
 
     public enum UIPanelType

@@ -13,7 +13,6 @@ using UnityEngine.Networking;
 
 namespace DVRSDK.Test
 {
-
     public class AvatarTestUI : MonoBehaviour
     {
         [SerializeField]
@@ -32,7 +31,7 @@ namespace DVRSDK.Test
             { ApiRequestErrors.Forbidden, "Request forbidden" },
             { ApiRequestErrors.Unregistered, "User unregistered" },
             { ApiRequestErrors.Unverified, "User email unverified" },
-         };
+        };
 
         private void OnGUI()
         {
@@ -85,8 +84,6 @@ namespace DVRSDK.Test
             GUI.Box(new Rect(margin, margin, 620, 20), currentStatus);
         }
 
-
-
         private void DoLogin()
         {
             var sdkSettings = Resources.Load<SdkSettings>("SdkSettings");
@@ -120,7 +117,7 @@ namespace DVRSDK.Test
         {
             try
             {
-                //自身のアバター一覧からカレントを取得する場合
+                // 自身のアバター一覧からカレントを取得する場合
                 //var currentAvatars = await Authentication.Instance.Okami.GetAvatarsAsync();
                 //if (currentAvatars == null || currentAvatars.Count == 0)
                 //{
@@ -130,11 +127,11 @@ namespace DVRSDK.Test
                 //var currentAvatar = currentAvatars.FirstOrDefault(avatar => avatar.is_current);
                 //if (currentAvatar == null) currentAvatar = currentAvatars.First();
 
-                //自身のユーザーからカレントを取得する場合
+                // 自身のユーザーからカレントを取得する場合
                 //var currentUser = await Authentication.Instance.Okami.GetCurrentUserAsync();
                 //var currentAvatar = currentUser.current_avatar;
 
-                //自身のユーザーIDからユーザー情報を取得して取得する場合(データ暗号化)
+                // 自身のユーザーIDからユーザー情報を取得して取得する場合(データ暗号化)
                 var currentUser = await Authentication.Instance.Okami.GetCurrentUserAsync();
                 var myUser = await Authentication.Instance.Okami.GetUserAsync(currentUser.id);
                 var currentAvatar = myUser.current_avatar;
@@ -171,6 +168,5 @@ namespace DVRSDK.Test
             calibrator?.LoadModel(CurrentModel);
             calibrator?.DoCalibration();
         }
-
     }
 }

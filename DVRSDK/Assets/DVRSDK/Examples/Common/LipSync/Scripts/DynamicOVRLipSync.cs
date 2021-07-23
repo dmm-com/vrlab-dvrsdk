@@ -6,10 +6,9 @@ using System.Linq;
 using UnityEngine;
 using VRM;
 
+// OVRLipSync.csより後に起動しないとContextが取得できないのでExecutionOrderに気を付ける
 [RequireComponent(typeof(AudioSource))]
 [RequireComponent(typeof(OVRLipSync))]
-//OVRLipSync.csより後に起動しないとContextが取得できないのでExecutionOrderに気を付ける
-
 public class DynamicOVRLipSync : OVRLipSyncContextBase
 {
     private const bool EnableLowLatency = true;
@@ -69,7 +68,7 @@ public class DynamicOVRLipSync : OVRLipSyncContextBase
     {
         Smoothing = SmoothAmount;
 
-        audioSource.loop = true;    // Set the AudioClip to loop
+        audioSource.loop = true; // Set the AudioClip to loop
         audioSource.mute = false;
 
         if (Microphone.devices.Length != 0 && string.IsNullOrWhiteSpace(selectedDevice))
@@ -97,11 +96,11 @@ public class DynamicOVRLipSync : OVRLipSyncContextBase
                     OVRLipSync.Frame frame = GetCurrentPhonemeFrame();
                     if (frame != null)
                     {
-                        //あ OVRLipSync.Viseme.aa; BlendShapePreset.A;
-                        //い OVRLipSync.Viseme.ih; BlendShapePreset.I;
-                        //う OVRLipSync.Viseme.ou; BlendShapePreset.U;
-                        //え OVRLipSync.Viseme.E;  BlendShapePreset.E;
-                        //お OVRLipSync.Viseme.oh; BlendShapePreset.O;
+                        // あ OVRLipSync.Viseme.aa; BlendShapePreset.A;
+                        // い OVRLipSync.Viseme.ih; BlendShapePreset.I;
+                        // う OVRLipSync.Viseme.ou; BlendShapePreset.U;
+                        // え OVRLipSync.Viseme.E;  BlendShapePreset.E;
+                        // お OVRLipSync.Viseme.oh; BlendShapePreset.O;
                         var presets = new BlendShapePreset[] {
                             BlendShapePreset.A,
                             BlendShapePreset.I,
@@ -235,7 +234,6 @@ public class DynamicOVRLipSync : OVRLipSyncContextBase
                     OVRLipSync.ProcessFrame(Context, data,/* flags,*/ frame);
                 }
             }
-
         }
         // Turn off output (so that we don't get feedback from mics too close to speakers)
         if (AudioMute == true)
@@ -250,7 +248,7 @@ public class DynamicOVRLipSync : OVRLipSyncContextBase
     {
         if (micSelected == false) return;
 
-        //Gets the frequency of the device
+        // Gets the frequency of the device
         Microphone.GetDeviceCaps(selectedDevice, out minFreq, out maxFreq);
 
         if (minFreq == 0 && maxFreq == 0)
@@ -259,14 +257,13 @@ public class DynamicOVRLipSync : OVRLipSyncContextBase
             minFreq = 44100;
             maxFreq = 44100;
         }
-
     }
 
     public void StartMicrophone()
     {
         if (micSelected == false) return;
 
-        //Starts recording
+        // Starts recording
         audioSource.clip = Microphone.Start(selectedDevice, true, 1, micFrequency);
 
         // Wait until the recording has started
@@ -286,7 +283,6 @@ public class DynamicOVRLipSync : OVRLipSyncContextBase
 
         Microphone.End(selectedDevice);
     }
-
 
     void OnDisable()
     {

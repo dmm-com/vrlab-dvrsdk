@@ -33,7 +33,7 @@ namespace DVRSDK.Serializer
             {
                 if (i > 0 && json[i] == '"' && json[i - 1] != '\\') quoteCount++;
 
-                if (quoteCount % 2 == 0) //is not value(quoted)
+                if (quoteCount % 2 == 0) // is not value(quoted)
                 {
                     if (json[i] == '{' || json[i] == '[')
                     {
@@ -81,7 +81,7 @@ namespace DVRSDK.Serializer
             {
                 if (i > 0 && json[i] == '"' && json[i - 1] != '\\') quoteCount++;
 
-                if (quoteCount % 2 == 0) //is not value(quoted)
+                if (quoteCount % 2 == 0) // is not value(quoted)
                 {
                     if (json[i] == '{' || json[i] == '[')
                     {
@@ -112,7 +112,6 @@ namespace DVRSDK.Serializer
             return json;
         }
 
-
         public T Deserialize<T>(string json)
         {
             return (T)Deserialize(typeof(T), json);
@@ -130,7 +129,7 @@ namespace DVRSDK.Serializer
                     return serializer.ReadObject(stream);
                 }
             }
-            catch (Exception ex)//System.Runtime.Serialization.SerializationException
+            catch (Exception ex) // System.Runtime.Serialization.SerializationException
             {
                 try
                 {
@@ -149,4 +148,3 @@ namespace DVRSDK.Serializer
         }
     }
 }
-

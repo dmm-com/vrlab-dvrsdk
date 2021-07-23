@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using UnityEngine;
 
 namespace DVRSDK.Plugins.Input
@@ -27,7 +26,6 @@ namespace DVRSDK.Plugins.Input
             if (OVRInput.GetDown(OVRInput.RawButton.LIndexTrigger)) KeyDownEvent?.Invoke(this, new KeyEventArgs(KeyNames.Trigger, true));
             if (OVRInput.GetDown(OVRInput.RawButton.LHandTrigger)) KeyDownEvent?.Invoke(this, new KeyEventArgs(KeyNames.Grip, true));
 
-
             if (OVRInput.GetUp(OVRInput.RawButton.A)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Select, false));
             if (OVRInput.GetUp(OVRInput.RawButton.B)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Cancel, false));
             if (OVRInput.GetUp(OVRInput.RawButton.RThumbstick)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Stick, false));
@@ -41,8 +39,8 @@ namespace DVRSDK.Plugins.Input
             if (OVRInput.GetUp(OVRInput.RawButton.LIndexTrigger)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Trigger, true));
             if (OVRInput.GetUp(OVRInput.RawButton.LHandTrigger)) KeyUpEvent?.Invoke(this, new KeyEventArgs(KeyNames.Grip, true));
 
-            var leftStickAxis = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick); //左スティック
-            var rightStickAxis = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick); //右スティック
+            var leftStickAxis = OVRInput.Get(OVRInput.RawAxis2D.LThumbstick); // 左スティック
+            var rightStickAxis = OVRInput.Get(OVRInput.RawAxis2D.RThumbstick); // 右スティック
             if (leftStickAxis != lastLeftStickAxis)
             {
                 lastLeftStickAxis = leftStickAxis;

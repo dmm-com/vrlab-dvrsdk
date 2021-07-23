@@ -12,13 +12,12 @@ namespace DVRSDK.Avatar
         private const bool RIGHT = false;
 
         public float AnimationSpeed = 20.0f;
-        
+
         private VRMHandController handController;
 
         private Dictionary<bool, float> pointBlend = new Dictionary<bool, float> { { LEFT, 0.0f }, { RIGHT, 0.0f } };
         private Dictionary<bool, float> thumbsUpBlend = new Dictionary<bool, float> { { LEFT, 0.0f }, { RIGHT, 0.0f } };
         private Dictionary<bool, float> otherBlend = new Dictionary<bool, float> { { LEFT, 0.0f }, { RIGHT, 0.0f } };
-
 
         private List<int> rock = new List<int> { -70, -90, -90, 0, -90, -90, -90, 0, -90, -90, -90, 0, -90, -90, -90, 0, -90, -90, 2, 10, -70, -90, -90, 0, -90, -90, -90, 0, -90, -90, -90, 0, -90, -90, -90, 0, -90, -90, 2, 10 };
         private List<int> paper = new List<int> { 3, 0, 4, -15, 0, 4, 2, -7, 0, 5, 1, 0, -2, -1, 0, 4, 10, 10, 10, 10, 3, 0, 4, -15, 0, 4, 2, -7, 0, 5, 1, 0, -2, -1, 0, 4, 10, 10, 10, 10 };
@@ -47,16 +46,15 @@ namespace DVRSDK.Avatar
                 fixedHandAnglesDefault = handController.CalcHandEulerAngles(angles);
             }
         }
-               
+
         private List<Vector3> rockdefault = null;
         private List<Vector3> paperdefault = null;
-
 
         private void Update()
         {
             UpdateAnimStates();
         }
-        
+
         private float CalcBlendValue(bool isDown, float value)
         {
             float rateDelta = Time.deltaTime * AnimationSpeed;
@@ -90,12 +88,12 @@ namespace DVRSDK.Avatar
             var isOther = !ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Grip);
             var isIndex = !ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Trigger);
             var isThumb = !(ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Stick) |
-                          ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Select) |
-                          ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Cancel));
+                            ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Select) |
+                            ButtonManager.Instance.GetKeyState(isLeft, KeyNames.Cancel));
             otherBlend[isLeft] = CalcBlendValue(isOther, otherBlend[isLeft]);
             pointBlend[isLeft] = CalcBlendValue(isIndex, pointBlend[isLeft]);
             thumbsUpBlend[isLeft] = CalcBlendValue(isThumb, thumbsUpBlend[isLeft]);
-            
+
             var otherValue = otherBlend[isLeft];
             ts.AddRange(Enumerable.Repeat(otherValue, 9));
             var indexValue = pointBlend[isLeft];
@@ -121,6 +119,5 @@ namespace DVRSDK.Avatar
                 paperdefault[i] = new Vector3(paperdefault[i].x + paperRoll[i], paperdefault[i].y, paperdefault[i].z);
             }
         }
-
     }
 }

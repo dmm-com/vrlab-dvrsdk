@@ -6,13 +6,12 @@ namespace DVRSDK.Avatar.Tracking
 {
     public class VRMHandController : MonoBehaviour
     {
-
         private AnimationController leftAnimationController;
         private AnimationController rightAnimationController;
         private bool doLeftAnimation = false;
         private bool doRightAnimation = false;
 
-        //指のデフォルト角度取得
+        // 指のデフォルト角度取得
         public void SetDefaultAngle(Animator animator)
         {
             FingerTransforms.Clear();
@@ -33,38 +32,38 @@ namespace DVRSDK.Avatar.Tracking
         }
 
         private List<HumanBodyBones> FingerBones = new List<HumanBodyBones>
-    {
-        HumanBodyBones.LeftLittleDistal,
-        HumanBodyBones.LeftLittleIntermediate,
-        HumanBodyBones.LeftLittleProximal,
-        HumanBodyBones.LeftRingDistal,
-        HumanBodyBones.LeftRingIntermediate,
-        HumanBodyBones.LeftRingProximal,
-        HumanBodyBones.LeftMiddleDistal,
-        HumanBodyBones.LeftMiddleIntermediate,
-        HumanBodyBones.LeftMiddleProximal,
-        HumanBodyBones.LeftIndexDistal,
-        HumanBodyBones.LeftIndexIntermediate,
-        HumanBodyBones.LeftIndexProximal,
-        HumanBodyBones.LeftThumbDistal,
-        HumanBodyBones.LeftThumbIntermediate,
-        HumanBodyBones.LeftThumbProximal,
-        HumanBodyBones.RightLittleDistal,
-        HumanBodyBones.RightLittleIntermediate,
-        HumanBodyBones.RightLittleProximal,
-        HumanBodyBones.RightRingDistal,
-        HumanBodyBones.RightRingIntermediate,
-        HumanBodyBones.RightRingProximal,
-        HumanBodyBones.RightMiddleDistal,
-        HumanBodyBones.RightMiddleIntermediate,
-        HumanBodyBones.RightMiddleProximal,
-        HumanBodyBones.RightIndexDistal,
-        HumanBodyBones.RightIndexIntermediate,
-        HumanBodyBones.RightIndexProximal,
-        HumanBodyBones.RightThumbDistal,
-        HumanBodyBones.RightThumbIntermediate,
-        HumanBodyBones.RightThumbProximal,
-    };
+        {
+            HumanBodyBones.LeftLittleDistal,
+            HumanBodyBones.LeftLittleIntermediate,
+            HumanBodyBones.LeftLittleProximal,
+            HumanBodyBones.LeftRingDistal,
+            HumanBodyBones.LeftRingIntermediate,
+            HumanBodyBones.LeftRingProximal,
+            HumanBodyBones.LeftMiddleDistal,
+            HumanBodyBones.LeftMiddleIntermediate,
+            HumanBodyBones.LeftMiddleProximal,
+            HumanBodyBones.LeftIndexDistal,
+            HumanBodyBones.LeftIndexIntermediate,
+            HumanBodyBones.LeftIndexProximal,
+            HumanBodyBones.LeftThumbDistal,
+            HumanBodyBones.LeftThumbIntermediate,
+            HumanBodyBones.LeftThumbProximal,
+            HumanBodyBones.RightLittleDistal,
+            HumanBodyBones.RightLittleIntermediate,
+            HumanBodyBones.RightLittleProximal,
+            HumanBodyBones.RightRingDistal,
+            HumanBodyBones.RightRingIntermediate,
+            HumanBodyBones.RightRingProximal,
+            HumanBodyBones.RightMiddleDistal,
+            HumanBodyBones.RightMiddleIntermediate,
+            HumanBodyBones.RightMiddleProximal,
+            HumanBodyBones.RightIndexDistal,
+            HumanBodyBones.RightIndexIntermediate,
+            HumanBodyBones.RightIndexProximal,
+            HumanBodyBones.RightThumbDistal,
+            HumanBodyBones.RightThumbIntermediate,
+            HumanBodyBones.RightThumbProximal,
+        };
 
         private List<Transform> FingerTransforms = new List<Transform>();
         private List<Vector3> FingerDefaultVectors = new List<Vector3>();
@@ -108,6 +107,7 @@ namespace DVRSDK.Avatar.Tracking
             return eulers;
         }
         */
+
         public List<Vector3> eulersLerp(List<Vector3> startEulers, List<Vector3> endEulers, float t)
         {
             var eulers = new List<Vector3>();
@@ -119,6 +119,7 @@ namespace DVRSDK.Avatar.Tracking
             }
             return eulers;
         }
+
         public List<Vector3> eulersLerps(List<Vector3> startEulers, List<Vector3> endEulers, List<float> ts)
         {
             var eulers = new List<Vector3>();
@@ -130,7 +131,6 @@ namespace DVRSDK.Avatar.Tracking
             }
             return eulers;
         }
-
 
         public void SetHandEulerAngles(bool LeftEnable, bool RightEnable, List<Vector3> Eulers)
         {
@@ -177,23 +177,23 @@ namespace DVRSDK.Avatar.Tracking
             for (int i = 0; i < handBonesCount; i += 3)
             {
                 if (i >= 12)
-                { //親指
-                    var vector = FingerDefaultVectors[i + 2]; //第三関節
-                    var angle = (-angles[(i / 3) * 4 + 2]) / 90.0f; //-90が1.0 -45は0.5 -180は2.0
+                { // 親指
+                    var vector = FingerDefaultVectors[i + 2]; // 第三関節
+                    var angle = (-angles[(i / 3) * 4 + 2]) / 90.0f; // -90が1.0 -45は0.5 -180は2.0
                     var sideangle = angles[(i / 3) * 4 + 3];
                     var ax = angle * 0.0f;
                     var ay = angle * 0.0f + sideangle;
                     var az = (float)angles[(i / 3) * 4 + 2];
                     eulers[i + 2] = new Vector3(vector.x + ax, vector.y - ay, vector.z - az);
 
-                    vector = FingerDefaultVectors[i + 1]; //第二関節
+                    vector = FingerDefaultVectors[i + 1]; // 第二関節
                     angle = (-angles[(i / 3) * 4 + 1]) / 90.0f;
                     ax = angle * 38f;
                     ay = angle * 38f;
                     az = angle * -15f;
                     eulers[i + 1] = new Vector3(vector.x + ax, vector.y - ay, vector.z - az);
 
-                    vector = FingerDefaultVectors[i]; //第一関節
+                    vector = FingerDefaultVectors[i]; // 第一関節
                     angle = (-angles[(i / 3) * 4]) / 90.0f;
                     ax = angle * 34f;
                     ay = angle * 56f;
@@ -202,16 +202,16 @@ namespace DVRSDK.Avatar.Tracking
                 }
                 else
                 {
-                    var vector = FingerDefaultVectors[i + 2]; //第三関節
+                    var vector = FingerDefaultVectors[i + 2]; // 第三関節
                     var angle = angles[(i / 3) * 4 + 2];
                     var sideangle = angles[(i / 3) * 4 + 3];
                     eulers[i + 2] = new Vector3(vector.x, vector.y - sideangle, vector.z - angle);
 
-                    vector = FingerDefaultVectors[i + 1]; //第二関節
+                    vector = FingerDefaultVectors[i + 1]; // 第二関節
                     angle = angles[(i / 3) * 4 + 1];
                     eulers[i + 1] = new Vector3(vector.x, vector.y /* - sideangle*/ , vector.z - angle);
 
-                    vector = FingerDefaultVectors[i]; //第一関節
+                    vector = FingerDefaultVectors[i]; // 第一関節
                     angle = angles[(i / 3) * 4];
                     eulers[i] = new Vector3(vector.x, vector.y /* - sideangle*/ , vector.z - angle);
                 }
@@ -219,23 +219,23 @@ namespace DVRSDK.Avatar.Tracking
             for (int i = 0; i < handBonesCount; i += 3)
             {
                 if (i >= 12)
-                { //親指
-                    var vector = FingerDefaultVectors[i + 2]; //第三関節
-                    var angle = (-angles[(i / 3) * 4 + 2]) / 90.0f; //-90が1.0 -45は0.5 -180は2.0
+                { // 親指
+                    var vector = FingerDefaultVectors[i + 2]; // 第三関節
+                    var angle = (-angles[(i / 3) * 4 + 2]) / 90.0f; // -90が1.0 -45は0.5 -180は2.0
                     var sideangle = angles[(i / 3) * 4 + 3];
                     var ax = angle * 0.0f;
                     var ay = angle * 0.0f + sideangle;
                     var az = (float)angles[(i / 3) * 4 + 2];
                     eulers[i + handBonesCount + 2] = new Vector3(vector.x + ax, vector.y + ay, vector.z + az);
 
-                    vector = FingerDefaultVectors[i + 1]; //第二関節
+                    vector = FingerDefaultVectors[i + 1]; // 第二関節
                     angle = (-angles[(i / 3) * 4 + 1]) / 90.0f;
                     ax = angle * 38f;
                     ay = angle * 38f;
                     az = angle * -15f;
                     eulers[i + handBonesCount + 1] = new Vector3(vector.x + ax, vector.y + ay, vector.z + az);
 
-                    vector = FingerDefaultVectors[i]; //第一関節
+                    vector = FingerDefaultVectors[i]; // 第一関節
                     angle = (-angles[(i / 3) * 4]) / 90.0f;
                     ax = angle * 34f;
                     ay = angle * 56f;
@@ -244,16 +244,16 @@ namespace DVRSDK.Avatar.Tracking
                 }
                 else
                 {
-                    var vector = FingerDefaultVectors[i + 2]; //第三関節
+                    var vector = FingerDefaultVectors[i + 2]; // 第三関節
                     var angle = angles[(i / 3) * 4 + 2];
                     var sideangle = angles[(i / 3) * 4 + 3];
                     eulers[i + handBonesCount + 2] = new Vector3(vector.x, vector.y + sideangle, vector.z + angle);
 
-                    vector = FingerDefaultVectors[i + 1]; //第二関節
+                    vector = FingerDefaultVectors[i + 1]; // 第二関節
                     angle = angles[(i / 3) * 4 + 1];
                     eulers[i + handBonesCount + 1] = new Vector3(vector.x, vector.y /* + sideangle*/ , vector.z + angle);
 
-                    vector = FingerDefaultVectors[i]; //第一関節
+                    vector = FingerDefaultVectors[i]; // 第一関節
                     angle = angles[(i / 3) * 4];
                     eulers[i + handBonesCount] = new Vector3(vector.x, vector.y /* + sideangle*/ , vector.z + angle);
                 }

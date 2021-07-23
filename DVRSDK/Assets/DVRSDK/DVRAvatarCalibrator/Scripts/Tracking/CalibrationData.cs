@@ -7,7 +7,6 @@ using UnityEngine;
 
 namespace DVRSDK.Avatar.Tracking
 {
-
     public class CalibrationData
     {
         public ulong pelvisId;
