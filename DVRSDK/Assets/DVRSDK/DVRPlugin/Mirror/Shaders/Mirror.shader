@@ -40,8 +40,8 @@ Shader "DVRSDK/Mirror"
 				o.uv = TRANSFORM_TEX(v.uv0, _MainTex);
 				o.refl = ComputeScreenPos(o.pos);
 
-                // シングルパスステレオレンダリングではない時ComputeScreenPosはサイドバイサイド画像から正しい座標を返しません
-                // ProjectionMatrixの水平方向のスキューが0より小であれば左目用で、0より大であれば右目用のレンダリングパスです
+				// シングルパスステレオレンダリングではない時ComputeScreenPosはサイドバイサイド画像から正しい座標を返しません
+				// ProjectionMatrixの水平方向のスキューが0より小であれば左目用で、0より大であれば右目用のレンダリングパスです
 #ifndef UNITY_SINGLE_PASS_STEREO
 				if (unity_CameraProjection[0][2] < 0)
 				{
