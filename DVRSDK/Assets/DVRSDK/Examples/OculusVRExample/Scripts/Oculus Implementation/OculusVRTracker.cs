@@ -87,9 +87,6 @@ namespace DVRSDK.Avatar.Tracking.Oculus
                     trackerTarget.TargetTransform.localRotation = trackerTarget.SourceTransform.localRotation;
                     trackerTarget.PoseIsValid = true;
                 }
-                else
-                {
-                }
             }
         }
 
