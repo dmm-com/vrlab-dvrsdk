@@ -111,13 +111,6 @@ namespace DVRSDK.Avatar
 
         private void Start()
         {
-            var dict = new Dictionary<BlendShapeKey, float>();
-            foreach (var clip in BlendShapeClips)
-            {
-                dict.Add(clip.Key, 0.0f);
-            }
-            CurrentShapeKeys = dict;
-
             CreateAnimation();
         }
 
