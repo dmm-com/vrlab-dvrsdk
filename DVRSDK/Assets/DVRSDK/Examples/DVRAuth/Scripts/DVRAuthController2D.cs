@@ -12,7 +12,6 @@ namespace DVRSDK.Auth
 {
     public class DVRAuthController2D : MonoBehaviour
     {
-
         [SerializeField]
         private GUIStyle textCenterLabelStyle;
 
@@ -32,7 +31,7 @@ namespace DVRSDK.Auth
             { ApiRequestErrors.Forbidden, "Request forbidden" },
             { ApiRequestErrors.Unregistered, "User unregistered" },
             { ApiRequestErrors.Unverified, "User email unverified" },
-         };
+        };
 
         public void Awake()
         {
@@ -70,7 +69,6 @@ namespace DVRSDK.Auth
             {
                 Application.OpenURL(verificationUri);
             }
-
 
             if (GUILayout.Button("Refresh"))
             {
@@ -202,7 +200,7 @@ namespace DVRSDK.Auth
 
         private async Task GetCurrentAvatar()
         {
-            //自身のアバター一覧からカレントを取得する場合
+            // 自身のアバター一覧からカレントを取得する場合
             //if (currentAvatars == null || currentAvatars.Count == 0)
             //{
             //    currentStatus = "No avatars on your account.";
@@ -211,11 +209,11 @@ namespace DVRSDK.Auth
             //var currentAvatar = currentAvatars.FirstOrDefault(avatar => avatar.is_current);
             //if (currentAvatar == null) currentAvatar = currentAvatars.First();
 
-            //自身のユーザーからカレントを取得する場合
+            // 自身のユーザーからカレントを取得する場合
             //var currentUser = await Authentication.Instance.Okami.GetCurrentUserAsync();
             //var currentAvatar = currentUser.current_avatar;
 
-            //自身のユーザーIDからユーザー情報を取得して取得する場合(データ暗号化)
+            // 自身のユーザーIDからユーザー情報を取得して取得する場合(データ暗号化)
             var currentUser = await Authentication.Instance.Okami.GetCurrentUserAsync();
             var myUser = await Authentication.Instance.Okami.GetUserAsync(currentUser.id);
             var currentAvatar = myUser.current_avatar;

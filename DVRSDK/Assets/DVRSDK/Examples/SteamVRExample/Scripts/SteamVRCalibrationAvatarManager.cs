@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace DVRSDK.Test
 {
-
     public class SteamVRCalibrationAvatarManager : MonoBehaviour
     {
         [SerializeField]
@@ -55,7 +54,5 @@ namespace DVRSDK.Test
             faceBlendShapeController?.LoadModel(CurrentModel);
             calibrator?.DoCalibration();
         }
-
-
     }
 }

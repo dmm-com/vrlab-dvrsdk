@@ -26,7 +26,6 @@ namespace DVRSDK.Editor
 
         private static void UpdateDefineSymbols()
         {
-
             var symbols = InitializeSymbols();
             var version = GetVRMVersion();
 
@@ -84,12 +83,10 @@ namespace DVRSDK.Editor
                     UpdateDefineSymbols();
                 }
             }
-
         }
 
         private static (int major, int minor, int patch)? GetVRMVersion()
         {
-
             var vrmVersionType = Type.GetType("VRM.VRMVersion");
             if (vrmVersionType == null) vrmVersionType = Type.GetType("VRM.VRMVersion, VRM");
 
@@ -106,6 +103,7 @@ namespace DVRSDK.Editor
                 return null;
             }
         }
+
         private static T GetPublicConstantValue<T>(Type type, string constantName)
         {
             return (T)type.GetField(constantName, BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy).GetRawConstantValue();
@@ -118,7 +116,6 @@ namespace DVRSDK.Editor
 
             return true;
         }
-
     }
 }
 #endif

@@ -1,5 +1,4 @@
-﻿
-namespace DVRSDK.Plugins.Input
+﻿namespace DVRSDK.Plugins.Input
 {
     public enum KeyNames
     {

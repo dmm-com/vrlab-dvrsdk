@@ -8,7 +8,6 @@ namespace DVRSDK.Plugins.Input
 {
     public class ButtonManager : MonoBehaviour
     {
-
         public static ButtonManager Instance;
 
         public event EventHandler<KeyEventArgs> KeyDownEvent;
@@ -80,6 +79,7 @@ namespace DVRSDK.Plugins.Input
             }
             return Vector2.zero;
         }
+
         public bool GetKeyState(bool isLeft, KeyNames keyName)
         {
             var t = (isLeft, keyName);

@@ -9,7 +9,6 @@ using UnityEngine.UI;
 
 public class AvatarSelectListItem : MonoBehaviour
 {
-
     [SerializeField]
     private Image thumbnailImage;
     [SerializeField]
@@ -20,7 +19,6 @@ public class AvatarSelectListItem : MonoBehaviour
     public Action<AvatarModel> UseButtonAction;
 
     private AvatarModel avatarModel;
-
 
     public async void SetAvatarModel(AvatarModel model)
     {

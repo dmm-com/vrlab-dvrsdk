@@ -7,10 +7,8 @@ using DVRSDK.Utilities;
 
 namespace DVRSDK.Avatar.Tracking
 {
-
     public class FinalIKCalibrator
     {
-
         public float MaxModelHeight { get; set; } = 3.0f;
         public float MinModelHeight { get; set; } = 0.1f;
         public float ModelScale { get; private set; }
@@ -93,10 +91,10 @@ namespace DVRSDK.Avatar.Tracking
             var modelParent = currentModel.transform.parent;
             var modelParentPosition = modelParent == null ? Vector3.zero : modelParent.position;
 
-            //モデルのSkinnedMeshRendererがカリングされないように、すべてのオプション変更
+            // モデルのSkinnedMeshRendererがカリングされないように、すべてのオプション変更
             SetUpdateWhenOffscreen(true);
 
-            //モデルのデフォルト身長を取得しておく
+            // モデルのデフォルト身長を取得しておく
             var animator = currentModel.GetComponent<Animator>();
             var modelHeadTransform = animator.GetBoneTransform(HumanBodyBones.Head);
             modelHeadPosition = modelHeadTransform.position - modelParentPosition;
@@ -119,9 +117,8 @@ namespace DVRSDK.Avatar.Tracking
             currentModel.transform.localScale = new Vector3(ModelScale, ModelScale, ModelScale);
             modelHeadPosition = modelHeadTransform.position - modelParentPosition;
 
-            //HMD内に頭の影だけ表示できるように表示用オブジェクト複製
+            // HMD内に頭の影だけ表示できるように表示用オブジェクト複製
             CopyMeshRenderersForShadow();
-
         }
 
         private void SetUpdateWhenOffscreen(bool enable)
@@ -207,14 +204,14 @@ namespace DVRSDK.Avatar.Tracking
         {
             Trackers.TrackersParent.transform.localScale = Vector3.one;
             var headTarget = Trackers.GetTrackerTarget(TrackerPositions.Head);
-            //この高さはHMD（目の高さ）
+            // この高さはHMD(目の高さ)
             var realHeight = headTarget.TargetTransform.position.y - Trackers.TrackersParent.position.y;
             if (realHeight <= 0.0f) realHeight = 1.55f;
             if (headTarget.UseDeviceType == TrackingDeviceType.HMD)
             {
-                //人体寸法データベース
-                //https://www.airc.aist.go.jp/dhrt/91-92/data/list.html
-                //A30	頭頂・内眼角距離
+                // 人体寸法データベース
+                // https://www.airc.aist.go.jp/dhrt/91-92/data/list.html
+                // A30 頭頂・内眼角距離
                 realHeight += 0.1246f;
             }
             else if (headTarget.UseDeviceType == TrackingDeviceType.GenericTracker)
@@ -224,13 +221,13 @@ namespace DVRSDK.Avatar.Tracking
             Debug.Log($"UserHeight:{realHeight}");
 
             // 身長から腕の長さを算出する
-            // B1	身長 1654.7
-            // C7	上腕長 301.2
-            // C8	前腕長 240.5
+            // B1 身長 1654.7
+            // C7 上腕長 301.2
+            // C8 前腕長 240.5
             // ratio = (C7 + C8) / B1 = 541.7 / 1654.7 = 0.32737052033601257025442678431136
             var realArmLength = realHeight * 0.327f;
             Debug.Log($"UserArmLength:{realArmLength}");
-            //アバターの腕の長さ
+            // アバターの腕の長さ
             var animator = currentModel.GetComponent<Animator>();
             var leftUpperArm = animator.GetBoneTransform(HumanBodyBones.LeftUpperArm).position;
             var leftHand = animator.GetBoneTransform(HumanBodyBones.LeftHand).position;
@@ -238,18 +235,18 @@ namespace DVRSDK.Avatar.Tracking
             Debug.Log($"avatarArmLength:{avatarArmLength}");
 
             // 身長から肩峰幅(左右UpperArm間)を算出する
-            // D7   肩峰幅 378.8
-            // X1   調整値 80mm (左右合わせて、肩峰とUpperArm位置とのオフセット)
+            // D7 肩峰幅 378.8
+            // X1 調整値 80mm (左右合わせて、肩峰とUpperArm位置とのオフセット)
             // ratio = (D7 - X1) / B1 = (378.8 - 80) / 1654.7 = 0.18057653955399770351121049132773
             var realShoulderWidth = realHeight * 0.181f;
             Debug.Log($"UserShoulderWidth:{realShoulderWidth}");
-            //アバターの肩峰幅
+            // アバターの肩峰幅
             var rightUpperArm = animator.GetBoneTransform(HumanBodyBones.RightUpperArm).position;
             var avatarShoulderWidth = Vector3.Distance(leftUpperArm, rightUpperArm);
             Debug.Log($"avatarShoulderWidth:{avatarShoulderWidth}");
 
-            //腕の比率からスケールを算出する
-            //首(身体の中心)～手首までの長さの比率です
+            // 腕の比率からスケールを算出する
+            // 首(身体の中心)～手首までの長さの比率です
             var hscale = (avatarArmLength + (avatarShoulderWidth / 2)) / (realArmLength + (realShoulderWidth / 2));
             Debug.Log($"avatar / user scale:{hscale}");
             Trackers.TrackersParent.localScale = new Vector3(hscale, hscale, hscale);
@@ -267,7 +264,7 @@ namespace DVRSDK.Avatar.Tracking
             GeneratedGameObjects.Add(firstPersonTarget);
             firstPersonTarget.transform.SetParent(vrmFirstPerson.FirstPersonBone, false);
 
-            //FirstPersonOffsetがデフォルト値の時は参考にならないのでそれっぽい目の位置を設定する
+            // FirstPersonOffsetがデフォルト値の時は参考にならないのでそれっぽい目の位置を設定する
             if (vrmFirstPerson.FirstPersonOffset == new Vector3(0, 0.06f, 0))
             {
                 vrmFirstPerson.FirstPersonOffset = new Vector3(0, 0.04f, 0.085f);
@@ -276,13 +273,13 @@ namespace DVRSDK.Avatar.Tracking
             var firstPersonTargetEularAngles = firstPersonTarget.transform.rotation.eulerAngles;
             var firstPersonTargetYRotation = Quaternion.Euler(0, firstPersonTargetEularAngles.y, 0);
 
-            //アバターを目線位置に移動
+            // アバターを目線位置に移動
             var avatarRoot = currentModel.transform;
             var avatarRootDefaultPosition = avatarRoot.position;
             avatarRoot.rotation = avatarRoot.rotation * (realEyeYRotation * Quaternion.Inverse(firstPersonTargetYRotation));
             avatarRoot.position = avatarRoot.position + (realEyePosition - firstPersonTarget.transform.position);
 
-            //VRIKアタッチ前にボーンの曲げ方向を補正して関節が正しい方向に曲がるようにする
+            // VRIKアタッチ前にボーンの曲げ方向を補正して関節が正しい方向に曲がるようにする
             FixLegDirection(currentModel);
 
             vrik = currentModel.AddComponent<VRIK>();
@@ -295,9 +292,9 @@ namespace DVRSDK.Avatar.Tracking
             vrik.solver.rightArm.stretchCurve = new AnimationCurve();
             vrik.UpdateSolverExternal();
 
-            //足の歩き具合を調整
-            // vrik.solver.leftLeg.swivelOffset = 15;
-            // vrik.solver.rightLeg.swivelOffset = -15;
+            // 足の歩き具合を調整
+            //vrik.solver.leftLeg.swivelOffset = 15;
+            //vrik.solver.rightLeg.swivelOffset = -15;
             vrik.solver.locomotion.footDistance = 0.06f;
             vrik.solver.locomotion.stepThreshold = 0.2f;
             vrik.solver.locomotion.angleThreshold = 45f;
@@ -306,7 +303,6 @@ namespace DVRSDK.Avatar.Tracking
             vrik.solver.locomotion.rootSpeed = 40;
             vrik.solver.locomotion.stepSpeed = 2;
             vrik.solver.locomotion.weight = 1.0f;
-
 
             /*
             var spine = animator.GetBoneTransform(HumanBodyBones.Spine);
@@ -319,21 +315,21 @@ namespace DVRSDK.Avatar.Tracking
             }
             */
 
-            //Head
+            // Head
             var headOffset = CreateTransform("HeadIKTarget", true, headTarget.TargetTransform, vrik.references.head);
             vrik.solver.spine.headTarget = headOffset;
 
-            //頭のトラッキングの補正度合いを変更
+            // 頭のトラッキングの補正度合いを変更
             vrik.solver.spine.minHeadHeight = 0;
             vrik.solver.spine.neckStiffness = 0.1f;
             vrik.solver.spine.headClampWeight = 0;
             vrik.solver.spine.maxRootAngle = 20;
 
-            //アバターの腰の位置についていくオブジェクト(FinalIKの処理順に影響を受けない)
+            // アバターの腰の位置についていくオブジェクト(FinalIKの処理順に影響を受けない)
             var pelvisFollow = CreateTransform("PelvisFollowObject", true, null, vrik.references.pelvis);
             pelvisFollow.gameObject.AddComponent<TransformFollower>().Target = vrik.references.pelvis;
 
-            //LeftHand
+            // LeftHand
             var leftHandTarget = Trackers.GetTrackerTarget(TrackerPositions.LeftHand);
             if (leftHandTarget != null)
             {
@@ -354,7 +350,7 @@ namespace DVRSDK.Avatar.Tracking
                 vrik.solver.leftArm.rotationWeight = 1f;
             }
 
-            //RightHand
+            // RightHand
             var rightHandTarget = Trackers.GetTrackerTarget(TrackerPositions.RightHand);
             if (rightHandTarget != null)
             {
@@ -375,12 +371,12 @@ namespace DVRSDK.Avatar.Tracking
                 vrik.solver.rightArm.rotationWeight = 1f;
             }
 
-            //Pelvis
+            // Pelvis
             var waistTarget = Trackers.GetTrackerTarget(TrackerPositions.Waist);
             if (waistTarget != null)
             {
                 var pelvisOffset = CreateTransform("PelvisIKTarget", true, waistTarget.TargetTransform, vrik.references.pelvis);
-                //腰トラッキングworkaround
+                // 腰トラッキングworkaround
                 var waistTrackerY = waistTarget.TargetTransform.position.y;
                 var pelvisOffsetY = pelvisOffset.position.y;
                 pelvisOffset.position = new Vector3(pelvisOffset.position.x, pelvisOffsetY - Mathf.Abs(waistTrackerY - pelvisOffsetY), pelvisOffset.position.z);
@@ -393,10 +389,10 @@ namespace DVRSDK.Avatar.Tracking
                 vrik.solver.spine.maxRootAngle = 180f;
             }
 
-            //腰のトラッキングを調整
-            vrik.solver.spine.maintainPelvisPosition = 0; //アバターによって腰がグリングリンするのが直ります
+            // 腰のトラッキングを調整
+            vrik.solver.spine.maintainPelvisPosition = 0; // アバターによって腰がグリングリンするのが直ります
 
-            //足のキャリブレーションはいったんモデルとトラッカーを同じ高さに戻してやる
+            // 足のキャリブレーションはいったんモデルとトラッカーを同じ高さに戻してやる
             var leftFootTarget = Trackers.GetTrackerTarget(TrackerPositions.LeftFoot);
             var rightFootTarget = Trackers.GetTrackerTarget(TrackerPositions.RightFoot);
 
@@ -405,16 +401,16 @@ namespace DVRSDK.Avatar.Tracking
             {
                 //if (avatarRoot.position.y < Trackers.TrackersParent.position.y)
                 //{
-                //アバターの足のほうが長いときは膝を曲げるためにアバターを0地点に高さ戻してキャリブレーション後に目線高さに戻す #1
+                // アバターの足のほうが長いときは膝を曲げるためにアバターを0地点に高さ戻してキャリブレーション後に目線高さに戻す #1
                 //avatarYOffset = Trackers.TrackersParent.position.y - avatarRoot.position.y;
                 //avatarRoot.position += new Vector3(0, avatarYOffset, 0);
                 //}
                 //else
                 {
-                    //TODO 足が短くても長くてもアバターの足が床の高さになるようにしているので、MR合成モードのような場合はアバターじゃなくてトラッキングスペースで合わせる事
+                    // TODO 足が短くても長くてもアバターの足が床の高さになるようにしているので、MR合成モードのような場合はアバターじゃなくてトラッキングスペースで合わせる事
 
-                    //アバターの足のほうが短いときはトラッカーとアバターをアバターの0地点になるように下げてからキャリブレーションする
-                    //HMDの高さにモデルが持ち上がってるから足が浮いてるはず
+                    // アバターの足のほうが短いときはトラッカーとアバターをアバターの0地点になるように下げてからキャリブレーションする
+                    // HMDの高さにモデルが持ち上がってるから足が浮いてるはず
                     trackersParentYOffset = avatarRoot.position.y - avatarRootDefaultPosition.y;
                     //avatarRootYOffset = trackersParentYOffset;
                     var yoffset = new Vector3(0, trackersParentYOffset, 0);
@@ -422,13 +418,12 @@ namespace DVRSDK.Avatar.Tracking
                     Trackers.TrackersParent.position -= yoffset;
                 }
 
-                //足トラッカーがあるときはLocomotion無効
+                // 足トラッカーがあるときはLocomotion無効
                 vrik.solver.locomotion.weight = 0.0f;
             }
             else
             {
-                //足トラッカーが無いとき
-
+                // 足トラッカーが無いとき
             }
 
             if (leftFootTarget != null)
@@ -447,14 +442,14 @@ namespace DVRSDK.Avatar.Tracking
             }
             else
             {
-                //アバターの足の位置についていくオブジェクト(FinalIKの処理順に影響を受けない)
+                // アバターの足の位置についていくオブジェクト(FinalIKの処理順に影響を受けない)
                 var leftFootFollow = CreateTransform("LeftFootFollowObject", true, null, vrik.references.leftFoot);
                 var follower = leftFootFollow.gameObject.AddComponent<TransformFollower>();
                 follower.Target = vrik.references.leftFoot;
 
-                //腰の子に膝のBendGoal設定用(足トラッカーが無いとき利用される)
+                // 腰の子に膝のBendGoal設定用(足トラッカーが無いとき利用される)
                 var bendGoalTarget = CreateTransform("LeftFootBendGoalTarget", true, leftFootFollow);
-                bendGoalTarget.localPosition = new Vector3(0, 0.4f, 2); //正面2m 高さ40cm
+                bendGoalTarget.localPosition = new Vector3(0, 0.4f, 2); // 正面2m 高さ40cm
                 bendGoalTarget.localRotation = Quaternion.identity;
                 vrik.solver.leftLeg.bendGoal = bendGoalTarget;
                 vrik.solver.leftLeg.bendGoalWeight = 1.0f;
@@ -476,14 +471,14 @@ namespace DVRSDK.Avatar.Tracking
             }
             else
             {
-                //アバターの足の位置についていくオブジェクト(FinalIKの処理順に影響を受けない)
+                // アバターの足の位置についていくオブジェクト(FinalIKの処理順に影響を受けない)
                 var rightFootFollow = CreateTransform("RightFootFollowObject", true, null, vrik.references.rightFoot);
                 var follower = rightFootFollow.gameObject.AddComponent<TransformFollower>();
                 follower.Target = vrik.references.rightFoot;
 
-                //腰の子に膝のBendGoal設定用(足トラッカーが無いとき利用される)
+                // 腰の子に膝のBendGoal設定用(足トラッカーが無いとき利用される)
                 var bendGoalTarget = CreateTransform("RightFootBendGoalTarget", true, rightFootFollow);
-                bendGoalTarget.localPosition = new Vector3(0, 0.4f, 2); //正面2m 高さ40cm
+                bendGoalTarget.localPosition = new Vector3(0, 0.4f, 2); // 正面2m 高さ40cm
                 bendGoalTarget.localRotation = Quaternion.identity;
                 vrik.solver.rightLeg.bendGoal = bendGoalTarget;
                 vrik.solver.rightLeg.bendGoalWeight = 1.0f;
@@ -493,7 +488,7 @@ namespace DVRSDK.Avatar.Tracking
 
             if (avatarRoot.position.y < avatarRootDefaultPosition.y)
             {
-                //アバターがもとより低い位置に居るときは足が埋まるので上げる
+                // アバターがもとより低い位置に居るときは足が埋まるので上げる
                 var currentTrackersParentYOffset = trackersParentYOffset;
                 trackersParentYOffset = avatarRoot.position.y - avatarRootDefaultPosition.y;
                 var yoffset = new Vector3(0, trackersParentYOffset, 0);
@@ -502,15 +497,15 @@ namespace DVRSDK.Avatar.Tracking
                 trackersParentYOffset += currentTrackersParentYOffset;
             }
 
-            //腰トラッカーか両足トラッカーがある場合VRIKRootControllerを使用しないと
-            //(特に)180度後ろを向いたときに正しい膝の方向計算ができません
+            // 腰トラッカーか両足トラッカーがある場合VRIKRootControllerを使用しないと
+            // (特に)180度後ろを向いたときに正しい膝の方向計算ができません
             if (waistTarget != null || (leftFootTarget != null && rightFootTarget != null))
             {
                 vrikRootController = vrik.references.root.gameObject.AddComponent<VRIKRootController>();
             }
 
-            //手首がねじれないようにする
-            //For Final IK 1.9
+            // 手首がねじれないようにする
+            // For Final IK 1.9
             //var leftTwistRelaxer = vrik.references.leftForearm.gameObject.AddComponent<RootMotion.FinalIK.TwistRelaxer>();
             //var rightTwistRelaxer = vrik.references.rightForearm.gameObject.AddComponent<RootMotion.FinalIK.TwistRelaxer>();
             //leftTwistRelaxer.ik = vrik;
@@ -524,7 +519,7 @@ namespace DVRSDK.Avatar.Tracking
             //rightTwistRelaxer.weight = 0.7f;
             //rightTwistRelaxer.parentChildCrossfade = 1.0f;
 
-            //For Final IK 2.0 (*この処理はアバターによっては腕を体に近づけると暴れる) 
+            // For Final IK 2.0 (*この処理はアバターによっては腕を体に近づけると暴れる)
             //var leftLowerArm = vrik.references.leftForearm;
             //var leftRelaxer = leftLowerArm.gameObject.AddComponent<TwistRelaxer>();
             //leftRelaxer.ik = vrik;
@@ -534,7 +529,7 @@ namespace DVRSDK.Avatar.Tracking
             //rightRelaxer.ik = vrik;
             //rightRelaxer.twistSolvers = new TwistSolver[] { new TwistSolver { transform = rightLowerArm } };
 
-            //Original
+            // Original
             wristRotationFix = currentModel.AddComponent<WristRotationFix>();
             wristRotationFix.SetVRIK(vrik);
 
@@ -558,5 +553,4 @@ namespace DVRSDK.Avatar.Tracking
             return t;
         }
     }
-
 }

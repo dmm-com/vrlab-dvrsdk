@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 
 namespace DVRSDK.Plugins.Input
 {
@@ -11,5 +10,4 @@ namespace DVRSDK.Plugins.Input
 
         void CheckUpdate();
     }
-
 }

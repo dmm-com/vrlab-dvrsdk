@@ -5,10 +5,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace DVRSDK.Encrypt
 {
-
     public class DotNetEncrypter : IEncrypter
     {
         private const string CONTAINER_NAME = "HenaCspKeyContainer";

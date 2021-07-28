@@ -2,7 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
 
-
 namespace DVRSDK.Streaming
 {
     [RequireComponent(typeof(AudioListener))]
@@ -15,7 +14,7 @@ namespace DVRSDK.Streaming
         {
             if (controller == null) controller = FindObjectOfType<DVRStreaming>();
         }
- 
+
         private void OnAudioFilterRead(float[] sampleData, int channels)
         {
             if (controller && controller.IsStreaming)
@@ -35,12 +34,8 @@ namespace DVRSDK.Streaming
             NativeMethods.AddAudioSamples(buffer, length, channels);
         }
 
-        public void StartStreaming()
-        {
-        }
+        public void StartStreaming() { }
 
-        public void StopStreaming()
-        {
-        }
+        public void StopStreaming() { }
     }
 }

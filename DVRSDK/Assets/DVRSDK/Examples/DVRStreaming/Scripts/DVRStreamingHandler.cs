@@ -18,11 +18,11 @@ public class DVRStreamingHandler : MonoBehaviour
     [SerializeField] private DVRStreaming streaming;
 
     private Dictionary<ApiRequestErrors, string> apiRequestErrorMessages = new Dictionary<ApiRequestErrors, string> {
-            { ApiRequestErrors.Unknown,"Unknown request error" },
-            { ApiRequestErrors.Forbidden, "Request forbidden" },
-            { ApiRequestErrors.Unregistered, "User unregistered" },
-            { ApiRequestErrors.Unverified, "User email unverified" },
-         };
+        { ApiRequestErrors.Unknown,"Unknown request error" },
+        { ApiRequestErrors.Forbidden, "Request forbidden" },
+        { ApiRequestErrors.Unregistered, "User unregistered" },
+        { ApiRequestErrors.Unverified, "User email unverified" },
+    };
 
     private List<StreamKeyModel> currentStreamKeys = new List<StreamKeyModel> { };
 

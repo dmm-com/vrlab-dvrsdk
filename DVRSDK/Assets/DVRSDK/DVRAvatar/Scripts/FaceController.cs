@@ -32,15 +32,15 @@ namespace DVRSDK.Avatar
             }
         }
 
-        public float BlinkTimeMin = 1.0f;           //まばたきするまでの最短時間
-        public float BlinkTimeMax = 10.0f;          //まばたきするまでの最長時間
-        public float CloseAnimationTime = 0.06f;    //目を閉じるアニメーション時間
-        public float OpenAnimationTime = 0.03f;     //目を開くアニメーション時間
-        public float ClosingTime = 0.1f;            //目を閉じたままにする時間
+        public float BlinkTimeMin = 1.0f;           // まばたきするまでの最短時間
+        public float BlinkTimeMax = 10.0f;          // まばたきするまでの最長時間
+        public float CloseAnimationTime = 0.06f;    // 目を閉じるアニメーション時間
+        public float OpenAnimationTime = 0.03f;     // 目を開くアニメーション時間
+        public float ClosingTime = 0.1f;            // 目を閉じたままにする時間
 
         private bool IsSetting = false;
 
-        public List<BlendShapeClip> BlendShapeClips; //読み込んだモデルの表情のキー一覧
+        public List<BlendShapeClip> BlendShapeClips; // 読み込んだモデルの表情のキー一覧
 
         public System.Action BeforeApply;
 
@@ -52,7 +52,7 @@ namespace DVRSDK.Avatar
             {
                 if (defaultFace != value)
                 {
-                    //前回の表情を消しておく
+                    // 前回の表情を消しておく
                     if (proxy != null)
                     {
                         if (defaultFace != BlendShapePreset.Unknown)
@@ -65,7 +65,7 @@ namespace DVRSDK.Avatar
                         }
                     }
                     defaultFace = value;
-                    //新しい表情を設定する
+                    // 新しい表情を設定する
                     if (proxy != null)
                     {
                         if (defaultFace != BlendShapePreset.Unknown)
@@ -168,7 +168,7 @@ namespace DVRSDK.Avatar
 
         private void SetFaceNeutral()
         {
-            //表情をデフォルトに戻す
+            // 表情をデフォルトに戻す
             if (proxy != null)
             {
                 var keys = new List<BlendShapeKey>();
@@ -235,7 +235,7 @@ namespace DVRSDK.Avatar
                 {
                     dict[keys[i]] = strength[i];
                 }
-                //現在のベースの表情を更新する
+                // 現在のベースの表情を更新する
                 CurrentShapeKeys = dict;
             }
         }
@@ -271,7 +271,7 @@ namespace DVRSDK.Avatar
             }
             var presetDictionary = AccumulateShapeKeys[presetName];
             presetDictionary.Clear();
-            //Mixしたい表情を合成する
+            // Mixしたい表情を合成する
             for (int i = 0; i < presets.Length; i++)
             {
                 var presetKey = presets[i];
@@ -283,15 +283,15 @@ namespace DVRSDK.Avatar
         {
             if (proxy == null) return;
             var accumulatedValues = new Dictionary<BlendShapeKey, float>();
-            //ベースの表情を設定する(使わない表情には全て0が入っている)
+            // ベースの表情を設定する(使わない表情には全て0が入っている)
             foreach (var shapeKey in CurrentShapeKeys)
             {
                 accumulatedValues[shapeKey.Key] = shapeKey.Value;
             }
 
-            BeforeApply?.Invoke(); //MixPresetsする最後のチャンス
+            BeforeApply?.Invoke(); // MixPresetsする最後のチャンス
 
-            //追加表情を合成する(最大値は超えないようにする)
+            // 追加表情を合成する(最大値は超えないようにする)
             foreach (var presets in AccumulateShapeKeys)
             {
                 foreach (var preset in presets.Value)
@@ -306,16 +306,16 @@ namespace DVRSDK.Avatar
                 }
             }
 
-            //全ての表情をSetValuesで1度に反映させる
+            // 全ての表情をSetValuesで1度に反映させる
             proxy.SetValues(accumulatedValues);
 
-            //SetValuesは内部でApplyまで行うためApply不要
+            // SetValuesは内部でApplyまで行うためApply不要
         }
 
         private void InitializeProxy()
         {
             proxy = VRMmodel.GetComponent<VRMBlendShapeProxy>();
-            //すべての表情の名称一覧を取得
+            // すべての表情の名称一覧を取得
             if (proxy != null)
             {
                 BlendShapeClips = proxy.BlendShapeAvatar.Clips;
@@ -323,13 +323,13 @@ namespace DVRSDK.Avatar
                 {
                     if (clip.Preset == BlendShapePreset.Unknown)
                     {
-                        //非プリセット(Unknown)であれば、Unknown用の名前変数を参照する
+                        // 非プリセット(Unknown)であれば、Unknown用の名前変数を参照する
                         BlendShapeKeyString[clip.BlendShapeName] = clip.Key;
                         KeyUpperCaseDictionary[clip.BlendShapeName.ToUpper()] = clip.BlendShapeName;
                     }
                     else
                     {
-                        //プリセットであればENUM値をToStringした値を利用する
+                        // プリセットであればENUM値をToStringした値を利用する
                         BlendShapeKeyString[clip.Preset.ToString()] = clip.Key;
                         KeyUpperCaseDictionary[clip.Preset.ToString().ToUpper()] = clip.Preset.ToString();
                     }
@@ -357,7 +357,7 @@ namespace DVRSDK.Avatar
                         if (StopBlink == false)
                         {
                             if (animationController?.Next() == false)
-                            {//最後まで行ったら値更新のためにアニメーション作り直す
+                            { // 最後まで行ったら値更新のためにアニメーション作り直す
                                 CreateAnimation();
                             }
                         }
@@ -370,13 +370,10 @@ namespace DVRSDK.Avatar
                             animationController?.Reset();
                         }
                     }
-
                 }
 
                 AccumulateBlendShapes();
             }
-
         }
     }
-
 }

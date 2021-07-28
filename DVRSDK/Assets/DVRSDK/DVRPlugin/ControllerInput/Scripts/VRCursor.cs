@@ -3,7 +3,6 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
 namespace DVRSDK.Plugins.Input
 {
     [RequireComponent(typeof(LineRenderer))]
@@ -30,7 +29,7 @@ namespace DVRSDK.Plugins.Input
         {
             get
             {
-                return Mathf.Clamp01(1 - (Time.time - lastShowRequestTime) / 1); //1sec
+                return Mathf.Clamp01(1 - (Time.time - lastShowRequestTime) / 1); // 1sec
             }
         }
 
@@ -79,7 +78,6 @@ namespace DVRSDK.Plugins.Input
             RequestShow();
         }
 
-
         void LateUpdate()
         {
             if (positionSetsThisFrame == 0)
@@ -125,6 +123,5 @@ namespace DVRSDK.Plugins.Input
             lineRenderer.enabled = true;
             hidden = false;
         }
-
     }
 }

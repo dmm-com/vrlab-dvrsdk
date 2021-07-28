@@ -28,7 +28,6 @@ namespace DVRSDK.DVRCamera
         {
             if (isFadeing)
             {
-
                 var distance = Vector3.Distance(PreviousCamera.transform.position, Camera.transform.position);
 
                 var moveDistance = distance / FadeTime * Time.deltaTime;
@@ -46,7 +45,6 @@ namespace DVRSDK.DVRCamera
 
                 transform.position = transform.position + direction * moveDistance;
                 transform.rotation = Quaternion.Lerp(PreviousCamera.transform.rotation, Camera.transform.rotation, progress / distance);
-
             }
             else
             {

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 #if !UNITY_ANDROID
 using Valve.VR;
@@ -11,7 +10,6 @@ namespace DVRSDK.Plugins
 #if !UNITY_ANDROID
         protected override void Render(MirrorSetting mirrorSetting, Camera currentCamera)
         {
-
             // ステレオモード時は左右の目で別のレンダリングが必要
             if (currentCamera.stereoEnabled)
             {

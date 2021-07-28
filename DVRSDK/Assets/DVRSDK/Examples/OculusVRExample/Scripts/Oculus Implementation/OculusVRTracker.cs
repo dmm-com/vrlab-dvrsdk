@@ -13,7 +13,7 @@ namespace DVRSDK.Avatar.Tracking.Oculus
         private Transform trackersParent = null;
         public Transform TrackersParent => trackersParent;
 
-        //外部からTransformを指定されたときはそちらをそのまま使用する。無い場合は自動で作成して割り当てる
+        // 外部からTransformを指定されたときはそちらをそのまま使用する。無い場合は自動で作成して割り当てる
         [Header("使用したい部位をすべて定義します。すべてのSourceTransformを埋めてください")]
         public TrackerTarget[] TrackerTargets = new TrackerTarget[]
         {
@@ -39,6 +39,7 @@ namespace DVRSDK.Avatar.Tracking.Oculus
                 return Vector3.zero;
             }
         }
+
         public Quaternion GetIKOffsetRotation(TrackerPositions targetPosition, TrackingDeviceType deviceType)
         {
             if (targetPosition == TrackerPositions.LeftHand && deviceType == TrackingDeviceType.Controller)
@@ -77,21 +78,18 @@ namespace DVRSDK.Avatar.Tracking.Oculus
 
         private void UpdateAllTrackerData()
         {
-            //全トラッカーの位置データ更新
+            // 全トラッカーの位置データ更新
             foreach (var trackerTarget in TrackerTargets)
             {
-                if (trackerTarget.SourceTransform != null) //スキップ設定、外部CameraRig等ですでに位置データ処理しているときを想定
+                if (trackerTarget.SourceTransform != null) // スキップ設定、外部CameraRig等ですでに位置データ処理しているときを想定
                 {
                     trackerTarget.TargetTransform.localPosition = trackerTarget.SourceTransform.localPosition;
                     trackerTarget.TargetTransform.localRotation = trackerTarget.SourceTransform.localRotation;
                     trackerTarget.PoseIsValid = true;
                 }
-                else
-                {
-
-                }
             }
         }
+
         /// <summary>
         /// 自動で指定したデバイスを指定した部位に割り当て
         /// </summary>
@@ -99,7 +97,7 @@ namespace DVRSDK.Avatar.Tracking.Oculus
         /// <param name="worldUpVector">HmdTransform.up</param>
         public void AutoAttachTrackerTargets(Vector3? worldForwardVector = null, Vector3? worldUpVector = null)
         {
-            //頭
+            // 頭
             var trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.Head);
             trackerTarget.DeviceIndex = 0;
             trackerTarget.UseDeviceType = TrackingDeviceType.HMD;
@@ -107,16 +105,15 @@ namespace DVRSDK.Avatar.Tracking.Oculus
             var forward = worldForwardVector ?? trackerTarget.TargetTransform.forward;
             var up = worldUpVector ?? trackerTarget.TargetTransform.up;
 
-            //左手
+            // 左手
             trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.LeftHand);
             trackerTarget.DeviceIndex = 0;
             trackerTarget.UseDeviceType = TrackingDeviceType.Controller;
 
-            //右手
+            // 右手
             trackerTarget = TrackerTargets.FirstOrDefault(d => d.TrackerPosition == TrackerPositions.RightHand);
             trackerTarget.DeviceIndex = 0;
             trackerTarget.UseDeviceType = TrackingDeviceType.Controller;
-
         }
 
         // forwardVectorとupVectorには正面方向(hmdTransform.forward, hmdTransform.up)を入れる
@@ -129,6 +126,5 @@ namespace DVRSDK.Avatar.Tracking.Oculus
             //Matrix4x4 inverse = matrix.inverse;
             return matrix.MultiplyPoint3x4(pos);
         }
-
     }
 }

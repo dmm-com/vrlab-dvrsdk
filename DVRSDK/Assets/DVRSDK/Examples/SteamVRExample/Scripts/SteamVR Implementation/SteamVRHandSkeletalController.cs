@@ -26,10 +26,10 @@ public class SteamVRHandSkeletalController : MonoBehaviour
 
     private VRMHandController handController;
 
-    //Indexで手を完全に開いたとき
+    // Indexで手を完全に開いたとき
     private Vector3[] indexHandReferences_Paper = new Vector3[] {
-        //左手
-        new Vector3( 359.5620000f ,   5.868034000f ,   6.407459f), //小指から
+        // 左手
+        new Vector3( 359.5620000f ,   5.868034000f ,   6.407459f), // 小指から
         new Vector3(   0.1860409f ,   0.010366790f , 345.483900f),
         new Vector3( 354.5298000f ,  15.953710000f , 350.730700f),
         new Vector3( 359.9762000f ,   1.456663000f , 355.366200f),
@@ -41,10 +41,10 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(   0.1769647f ,   2.613527000f ,   1.541096f),
         new Vector3(   5.2568340f ,  -0.003815474f ,   5.271921f),
         new Vector3(   1.1935620f ,   4.396974000f , 349.946500f),
-        new Vector3(   0.1973783f , 357.474800000f ,  25.656840f), //第1関節(指先)
-        new Vector3(   9.3738620f , 357.220000000f , 353.428300f), //第2関節
-        new Vector3(  10.8035900f , 282.224500000f , 244.613900f), //第3関節
-        //右手
+        new Vector3(   0.1973783f , 357.474800000f ,  25.656840f), // 第1関節(指先)
+        new Vector3(   9.3738620f , 357.220000000f , 353.428300f), // 第2関節
+        new Vector3(  10.8035900f , 282.224500000f , 244.613900f), // 第3関節
+        // 右手
         new Vector3(359.3318f,5.937632f,8.409874f),
         new Vector3(0.2176495f,359.9919f,347.779f),
         new Vector3(354.3216f,16.03978f,351.1829f),
@@ -61,10 +61,10 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(9.373862f,357.22f,353.4283f),
         new Vector3(349.1964f,257.7755f,64.61391f),
     };
-    //Indexで手を完全に閉じたとき
+    // Indexで手を完全に閉じたとき
     private Vector3[] indexHandReferences_Rock = new Vector3[] {
-        //左手
-        new Vector3(359.78060000f , 358.5597000f , 255.5686f), //小指から
+        // 左手
+        new Vector3(359.78060000f , 358.5597000f , 255.5686f), // 小指から
         new Vector3(  0.21743000f ,   1.2954080f , 269.2150f),
         new Vector3(359.40910000f ,   6.1556050f , 265.4337f),
         new Vector3(  0.08867738f ,   0.4809364f , 257.6532f),
@@ -76,10 +76,10 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(  0.01379834f ,   0.1329391f , 276.3850f),
         new Vector3(359.88360000f , 359.4341000f , 248.4853f),
         new Vector3(  6.07085000f ,  12.3191300f , 269.0260f),
-        new Vector3(  0.11365890f , 359.8626000f , 285.6703f), //第1関節(指先)
-        new Vector3(  0.43633980f ,   9.6895590f , 298.2396f), //第2関節
-        new Vector3(  0.56381050f , 300.1995000f , 216.8110f), //第3関節
-        //右手
+        new Vector3(  0.11365890f , 359.8626000f , 285.6703f), // 第1関節(指先)
+        new Vector3(  0.43633980f ,   9.6895590f , 298.2396f), // 第2関節
+        new Vector3(  0.56381050f , 300.1995000f , 216.8110f), // 第3関節
+        // 右手
         new Vector3(0.1080165f,358.717f,255.8838f),
         new Vector3(0.179034f,1.254422f,269.2236f),
         new Vector3(359.6021f,6.070357f,268.5331f),
@@ -96,10 +96,9 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(0.4363398f,9.689559f,298.2396f),
         new Vector3(359.4362f,239.8005f,36.81102f),
     };
-
     private Vector3[] vrmHandReferences_Paper = new Vector3[] {
-        //左手
-        new Vector3(359.5f,8.33795E-10f,358f),      //小指から
+        // 左手
+        new Vector3(359.5f,8.33795E-10f,358f),      // 小指から
         new Vector3(359.5f,-8.33795E-10f,3f),
         new Vector3(359.5f,339f,10f),
         new Vector3(359.5f,0f,5f),
@@ -111,10 +110,10 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(359.5f,-4.168975E-10f,1f),
         new Vector3(359.5f,-4.168975E-10f,1f),
         new Vector3(359.5f,2f,-8.33795E-10f),
-        new Vector3(346.6555f,21.15556f,357.3556f), //第1関節(指先)
-        new Vector3(349.7889f,9.71111f,356.1667f),  //第2関節
-        new Vector3(359.5f,357f,14f),               //第3関節
-        //右手
+        new Vector3(346.6555f,21.15556f,357.3556f), // 第1関節(指先)
+        new Vector3(349.7889f,9.71111f,356.1667f),  // 第2関節
+        new Vector3(359.5f,357f,14f),               // 第3関節
+        // 右手
         new Vector3(359.5f,-8.33795E-10f,2f),
         new Vector3(359.5f,8.33795E-10f,357f),
         new Vector3(359.5f,21f,350f),
@@ -132,8 +131,8 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(359.5f,3f,346f),
     };
     private Vector3[] vrmHandReferences_Rock = new Vector3[] {
-        //左手
-        new Vector3(359.5f,0f,90f),                 //小指から
+        // 左手
+        new Vector3(359.5f,0f,90f),                 // 小指から
         new Vector3(359.5f,0f,90f),
         new Vector3(359.5f,0f,90f),
         new Vector3(359.5f,0f,90f),
@@ -145,10 +144,10 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         new Vector3(359.5f,0f,81f),
         new Vector3(359.5f,-2.668144E-08f,102f),
         new Vector3(359.5f,0f,79f),
-        new Vector3(44.83333f,285.3333f,9.333335f), //第1関節(指先)
-        new Vector3(29.47778f,330.0222f,11.83333f), //第2関節
-        new Vector3(359.5f,345f,6f),                //第3関節
-        //右手
+        new Vector3(44.83333f,285.3333f,9.333335f), // 第1関節(指先)
+        new Vector3(29.47778f,330.0222f,11.83333f), // 第2関節
+        new Vector3(359.5f,345f,6f),                // 第3関節
+        // 右手
         new Vector3(359.5f,0f,270f),
         new Vector3(359.5f,0f,270f),
         new Vector3(359.5f,0f,270f),
@@ -168,7 +167,6 @@ public class SteamVRHandSkeletalController : MonoBehaviour
 
     private float[] vrmHandReferenceEuler_Open = new float[] { 2, -3, -10, 21, -5, -5, -4, 13, -2, 0, 1, 4, -1, -1, 0, -2, 34, 23, -14, 3 };
     private float[] vrmHandReferenceEuler_Close = new float[] { -90, -90, -90, 0, -90, -90, -90, 0, -90, -90, -86, 0, -81, -102, -79, 0, -120, -71, -6, 15 };
-
 
     public void LoadModel(GameObject prefab)
     {
@@ -255,11 +253,11 @@ public class SteamVRHandSkeletalController : MonoBehaviour
         var ratio3 = GetRatio3(calcangle, calcrefmin, calcrefmax);
         var value3 = GetValueFromRatio3(ratio3, calcvrmmin, calcvrmmax);
         int onehandCount = indexHandReferences_Paper.Length / 2;
-        if (index < 12 || (index >= onehandCount && index < 27)) //小指～人差し指
+        if (index < 12 || (index >= onehandCount && index < 27)) // 小指～人差し指
         {
             return value3;
         }
-        else //親指
+        else // 親指
         {
             var angleRef = new Vector3[] { new Vector3(0.0f, 0.0f, 1.0f), new Vector3(38f, 38f, -15f), new Vector3(34f, 56f, -7f) };
             int vrmeulerangle;

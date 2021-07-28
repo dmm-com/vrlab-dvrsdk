@@ -58,6 +58,7 @@ public class CameraManagerEditorScript : Editor
             EditorUtility.SetDirty(_target);
         }
     }
+
     private void DrawElementCallback(Rect rect, int index, bool isActive, bool isFocused)
     {
         var data = _target.SceneList[index];
@@ -82,20 +83,17 @@ public class CameraManagerEditorScript : Editor
         }
         offsetRect.y += EditorGUIUtility.singleLineHeight;
 
-
         var so = serializedObject.FindProperty("SceneList").GetArrayElementAtIndex(index);
         var listKey = so.propertyPath;
 
         ReorderableList cameraList;
 
-        
         if (innerListDict.ContainsKey(listKey))
         {
             cameraList = innerListDict[listKey];
         }
         else
         {
-
             cameraList = new ReorderableList(data.CameraList, typeof(List<CameraSetting>), true, true, true, true)
             {
                 drawHeaderCallback = (rect2) => EditorGUI.LabelField(rect2, "CameraList"),
@@ -118,8 +116,6 @@ public class CameraManagerEditorScript : Editor
 
         rect.y += EditorGUIUtility.singleLineHeight * 5;
         cameraList.DoList(rect);
-
-
     }
 
     private void OnReorderCallback(ReorderableList reorderableList)
@@ -132,5 +128,4 @@ public class CameraManagerEditorScript : Editor
         var listHeight = _target.SceneList[index].CameraList.Count * EditorGUIUtility.singleLineHeight * 6;
         return EditorGUIUtility.singleLineHeight * 6 + listHeight;
     }
-
 }

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.XR;
 
@@ -8,7 +7,6 @@ namespace DVRSDK.Plugins
     {
         protected override void Render(MirrorSetting mirrorSetting, Camera currentCamera)
         {
-
             // ステレオモード時は左右の目で別のレンダリングが必要
             if (currentCamera.stereoEnabled)
             {
@@ -38,6 +36,5 @@ namespace DVRSDK.Plugins
 
             RenderMirror(targetTexture, eyePos, eyeRot, projectionMatrix, targetEye == Camera.StereoscopicEye.Left ? leftEyeRect : rightEyeRect);
         }
-
     }
 }

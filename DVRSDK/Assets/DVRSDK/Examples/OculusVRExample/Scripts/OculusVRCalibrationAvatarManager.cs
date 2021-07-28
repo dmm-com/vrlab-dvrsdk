@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace DVRSDK.Test
 {
-
     public class OculusVRCalibrationAvatarManager : MonoBehaviour
     {
         [SerializeField]
@@ -56,7 +55,5 @@ namespace DVRSDK.Test
             faceBlendShapeController?.LoadModel(CurrentModel);
             calibrator?.DoCalibration();
         }
-
-
     }
 }

@@ -8,10 +8,8 @@ using VRM;
 using VRMShaders;
 #endif
 
-
 namespace DVRSDK.Test
 {
-
     public class AvatarUploadManager : MonoBehaviour
     {
         [SerializeField]
@@ -92,6 +90,7 @@ namespace DVRSDK.Test
         {
             return from.EncodeToPNG();
         }
+
         public byte[] ConvertVRMPrefabToBinary(GameObject vrm)
         {
             if (vrm == null) return null;
@@ -102,19 +101,15 @@ namespace DVRSDK.Test
             {
                 exporter.Prepare(vrm);
 
-
                 exporter.Export(MeshExportSettings.Default);
             }
             return gltf.ToGlbBytes();
-
 #elif UNIVRM_0_71_EXPORTER
             var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, _ => false);
             return gltf.ToGlbBytes();
-
 #else
             return null;
 #endif
-
         }
 
         private async Task UploadAvatarAsync(string avatarName, byte[] vrmData, byte[] thumbnailData)

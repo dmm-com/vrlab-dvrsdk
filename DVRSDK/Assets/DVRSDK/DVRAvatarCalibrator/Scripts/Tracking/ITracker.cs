@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace DVRSDK.Avatar.Tracking
 {
-
     public interface ITracker
     {
         Transform TrackersParent { get; }

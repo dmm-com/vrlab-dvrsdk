@@ -2,7 +2,6 @@ using UnityEngine;
 
 namespace DVRSDK.Utilities
 {
-
     [CreateAssetMenu(menuName = "DVRSDK/Create Configuration")]
     public class SdkSettings : ScriptableObject
     {

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace DVRSDK.Plugins
 {
-
     [ExecuteInEditMode] // シーンビューでも動かす
     public class Mirror : MonoBehaviour
     {

@@ -1,5 +1,4 @@
-﻿
-using DVRSDK.Plugins.Input;
+﻿using DVRSDK.Plugins.Input;
 using System;
 using System.Collections.Generic;
 
@@ -19,12 +18,9 @@ namespace UnityEngine.EventSystems
         [NonSerialized]
         public VRRayCaster activeGraphicRaycaster;
 
-
         #region StandaloneInputModule code
 
-        protected VRInputModule()
-        { }
-
+        protected VRInputModule() { }
 
         public override void ActivateModule()
         {
@@ -42,7 +38,6 @@ namespace UnityEngine.EventSystems
             base.DeactivateModule();
             ClearSelection();
         }
-
 
         private bool SendUpdateEventToSelectedObject()
         {
@@ -202,6 +197,7 @@ namespace UnityEngine.EventSystems
 
             ProcessMouseEvent(GetGazePointerData());
         }
+
         /// <summary>
         /// Decide if mouse events need to be processed this frame. Same as StandloneInputModule except
         /// that the IsPointerMoving method from this class is used, instead of the method on PointerEventData
@@ -214,7 +210,6 @@ namespace UnityEngine.EventSystems
             return false;
         }
         #endregion
-
 
         /// <summary>
         /// Convenience function for cloning PointerEventData
@@ -230,6 +225,7 @@ namespace UnityEngine.EventSystems
             @to.pointerEnter = @from.pointerEnter;
             @to.worldSpaceRay = @from.worldSpaceRay;
         }
+
         /// <summary>
         /// Convenience function for cloning PointerEventData
         /// </summary>
@@ -244,7 +240,6 @@ namespace UnityEngine.EventSystems
             @to.pointerEnter = @from.pointerEnter;
         }
 
-
         // In the following region we extend the PointerEventData system implemented in PointerInputModule
         // We define an additional dictionary for ray(e.g. gaze) based pointers. Mouse pointers still use the dictionary
         // in PointerInputModule
@@ -252,7 +247,6 @@ namespace UnityEngine.EventSystems
 
         // Pool for VRRayPointerEventData for ray based pointers
         protected Dictionary<int, VRPointerEventData> m_VRRayPointerData = new Dictionary<int, VRPointerEventData>();
-
 
         protected bool GetPointerData(int id, out VRPointerEventData data, bool create)
         {
@@ -307,7 +301,6 @@ namespace UnityEngine.EventSystems
 
         private readonly MouseState m_MouseState = new MouseState();
 
-
         // The following 2 functions are equivalent to PointerInputModule.GetMousePointerEventData but are customized to
         // get data for ray pointers and canvas mouse pointers.
 
@@ -322,11 +315,11 @@ namespace UnityEngine.EventSystems
             GetPointerData(kMouseLeftId, out leftData, true);
             leftData.Reset();
 
-            //Now set the world space ray. This ray is what the user uses to point at UI elements
+            // Now set the world space ray. This ray is what the user uses to point at UI elements
             leftData.worldSpaceRay = new Ray(rayTransform.position, rayTransform.forward);
             leftData.scrollDelta = GetExtraScrollDelta();
 
-            //Populate some default values
+            // Populate some default values
             leftData.button = PointerEventData.InputButton.Left;
             leftData.useDragThreshold = true;
             // Perform raycast to find intersections with world
@@ -381,7 +374,6 @@ namespace UnityEngine.EventSystems
             CopyFromTo(leftData, middleData);
             middleData.button = PointerEventData.InputButton.Middle;
 
-
             m_MouseState.SetButtonState(PointerEventData.InputButton.Left, GetGazeButtonState(), leftData);
             m_MouseState.SetButtonState(PointerEventData.InputButton.Right, PointerEventData.FramePressState.NotChanged, rightData);
             m_MouseState.SetButtonState(PointerEventData.InputButton.Middle, PointerEventData.FramePressState.NotChanged, middleData);
@@ -407,7 +399,6 @@ namespace UnityEngine.EventSystems
             }
             else
             {
-
                 // When it's not a screen space pointer we have to look at the angle it moved rather than the pixels distance
                 // For gaze based pointing screen-space distance moved will always be near 0
                 Vector3 cameraPos = pointerEvent.pressEventCamera.transform.position;
@@ -438,10 +429,8 @@ namespace UnityEngine.EventSystems
 
         protected Vector2 SwipeAdjustedPosition(Vector2 originalPosition, PointerEventData pointerEvent)
         {
-
             // If not Gear VR or swipe scroll isn't enabled just return original position
             return originalPosition;
-
         }
 
         /// <summary>
@@ -461,8 +450,8 @@ namespace UnityEngine.EventSystems
             {
                 if (pointerEvent is VRPointerEventData)
                 {
-                    //adjust the position used based on swiping action. Allowing the user to
-                    //drag items by swiping on the GearVR touchpad
+                    // adjust the position used based on swiping action. Allowing the user to
+                    // drag items by swiping on the GearVR touchpad
                     pointerEvent.position = SwipeAdjustedPosition(originalPosition, pointerEvent);
                 }
                 ExecuteEvents.Execute(pointerEvent.pointerDrag, pointerEvent, ExecuteEvents.beginDragHandler);

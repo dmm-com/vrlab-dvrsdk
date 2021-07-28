@@ -45,7 +45,6 @@ public class SteamVRTrackerIndicator : MonoBehaviour
         }
     }
 
-
     void Update()
     {
         if (target == null) return;

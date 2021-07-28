@@ -8,7 +8,6 @@ namespace DVRSDK.Avatar.Tracking
 {
     public class WristRotationFix : MonoBehaviour
     {
-
         public VRIK ik;
 
         private FixItem LeftElbowFixItem;
@@ -17,7 +16,7 @@ namespace DVRSDK.Avatar.Tracking
         private FixItem RightUpperArmFixItem;
 
         public float ElbowFixWeight = 0.5f;
-        public float UpperArmFixWeight = 0.2f; //0.5では強すぎて肩がねじれる場合がある
+        public float UpperArmFixWeight = 0.2f; // 0.5では強すぎて肩がねじれる場合がある
 
         public void SetVRIK(VRIK setIK)
         {
@@ -47,8 +46,8 @@ namespace DVRSDK.Avatar.Tracking
 
         private void FixAxis(FixItem fix)
         {
-            //Quaternion.AngleAxis:軸を決めて回転させる
-            //Quaternion * Vector3: 指定方向に回転させたVector3が返ってくる
+            // Quaternion.AngleAxis: 軸を決めて回転させる
+            // Quaternion * Vector3: 指定方向に回転させたVector3が返ってくる
             Quaternion targetRotation = fix.Target.rotation;
             Quaternion twistOffset = Quaternion.AngleAxis(0, targetRotation * fix.TwistAxis);
             targetRotation = twistOffset * targetRotation;
@@ -60,7 +59,7 @@ namespace DVRSDK.Avatar.Tracking
             // 親(肩)と子(手首)の中間の回転角度を計算する
             Vector3 relaxedAxis = Vector3.Slerp(relaxedAxisParent, relaxedAxisChild, fix.GetFixWeight());
 
-            // relaxedAxisを（axis、twistAxis）空間で変換して、ねじれ角を計算できます
+            // relaxedAxisを(axis、twistAxis)空間で変換して、ねじれ角を計算できます
             Quaternion r = Quaternion.LookRotation(targetRotation * fix.Axis, targetRotation * fix.TwistAxis);
             relaxedAxis = Quaternion.Inverse(r) * relaxedAxis;
 
@@ -98,14 +97,14 @@ namespace DVRSDK.Avatar.Tracking
                 Child = child;
                 GetFixWeight = getFixWeight;
 
-                //InverseTransformDirection:特定のワールド座標が自身のローカル座標だといくつになるか
+                // InverseTransformDirection: 特定のワールド座標が自身のローカル座標だといくつになるか
                 TwistAxis = target.InverseTransformDirection(child.position - target.position);
                 Axis = new Vector3(TwistAxis.y, TwistAxis.z, TwistAxis.x);
 
                 // ワールド座標での軸
                 Vector3 elbowAxisWorld = target.rotation * Axis;
 
-                //　肩と手首のワールド座標での軸
+                // 肩と手首のワールド座標での軸
                 AxisRelativeToParentDefault = Quaternion.Inverse(parent.rotation) * elbowAxisWorld;
                 AxisRelativeToChildDefault = Quaternion.Inverse(child.rotation) * elbowAxisWorld;
             }
