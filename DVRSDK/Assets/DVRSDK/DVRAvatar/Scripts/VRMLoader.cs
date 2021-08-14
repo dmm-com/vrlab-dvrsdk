@@ -3,10 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-#if UNIVRM_0_77_IMPORTER
-using UniGLTF;
-#endif
-#if UNIVRM_0_68_IMPORTER
+#if UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
 using UniGLTF;
 #endif
 using UnityEngine;
@@ -16,13 +13,16 @@ namespace DVRSDK.Avatar
 {
     public class VRMLoader : IDisposable
     {
-#if UNIVRM_0_77_IMPORTER
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER
+        private VRMImporterContext currentContext;
+        public GameObject Model => currentContext == null ? null : currentContext.Root;
+#elif UNIVRM_0_77_IMPORTER
         private VRMImporterContext currentContext;
         private RuntimeGltfInstance currentInstance;
         public GameObject Model => currentInstance == null ? null : currentInstance.Root;
 #else
-        private VRMImporterContext currentContext;
-        public GameObject Model => currentContext == null ? null : currentContext.Root;
+        private IDisposable currentContext = null;
+        public GameObject Model = null;
 #endif
 
 
@@ -31,13 +31,16 @@ namespace DVRSDK.Avatar
         /// </summary>
         public void ShowMeshes()
         {
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
             if (Model == null)
                 throw new InvalidOperationException("Need to load VRM model first.");
+#endif
 
-#if UNIVRM_0_77_IMPORTER
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER
+            currentContext.ShowMeshes();
+#elif UNIVRM_0_77_IMPORTER
             currentInstance.ShowMeshes();
 #else
-            currentContext.ShowMeshes();
 #endif
 
 #if UNIVRM_0_68_IMPORTER
@@ -287,9 +290,13 @@ namespace DVRSDK.Avatar
         /// <returns>VRMMetaObject</returns>
         public VRMMetaObject GetMeta(bool createThumbnail)
         {
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
             if (currentContext == null)
                 throw new InvalidOperationException("Need to initialize VRM model first.");
             return currentContext.ReadMeta(createThumbnail);
+#else
+            return null;
+#endif
         }
 
         // Byte列を得る

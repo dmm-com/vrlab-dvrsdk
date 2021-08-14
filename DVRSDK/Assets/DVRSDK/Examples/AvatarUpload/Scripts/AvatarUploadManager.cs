@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UniGLTF;
 using UnityEngine;
 using VRM;
-#if UNIVRM_0_71_EXPORTER
+#if UNIVRM_0_71_EXPORTER || UNIVRM_0_75_EXPORTER || UNIVRM_0_79_EXPORTER
 using VRMShaders;
 #endif
 
@@ -106,6 +106,12 @@ namespace DVRSDK.Test
             return gltf.ToGlbBytes();
 #elif UNIVRM_0_71_EXPORTER
             var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, _ => false);
+            return gltf.ToGlbBytes();
+#elif UNIVRM_0_75_EXPORTER
+            var gltf = VRMExporter.Export(new GltfExportSettings(), vrm, _ => false);
+            return gltf.ToGlbBytes();
+#elif UNIVRM_0_79_EXPORTER
+            var gltf = VRMExporter.Export(new GltfExportSettings(), vrm, /* ここを何とかする必要がある */　);
             return gltf.ToGlbBytes();
 #else
             return null;

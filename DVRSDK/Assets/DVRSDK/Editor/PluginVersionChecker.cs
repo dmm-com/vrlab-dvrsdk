@@ -30,55 +30,42 @@ namespace DVRSDK.Editor
             var version = GetVRMVersion();
 
             // Importer
+            symbols.Remove("UNIVRM_0_68_IMPORTER");
+            symbols.Remove("UNIVRM_0_77_IMPORTER");
+            symbols.Remove("UNIVRM_LEGACY_IMPORTER");
             if (version.Value.major == 0 && version.Value.minor < 68)
             {
-                if (!symbols.Contains("UNIVRM_LEGACY_IMPORTER"))
-                {
-                    symbols.Add("UNIVRM_LEGACY_IMPORTER");
-                }
-
-                symbols.Remove("UNIVRM_0_68_IMPORTER");
-                symbols.Remove("UNIVRM_0_77_IMPORTER");
+                symbols.Add("UNIVRM_LEGACY_IMPORTER");
             }
             else if (version.Value.major == 0 && version.Value.minor < 77)
             {
-                if (!symbols.Contains("UNIVRM_0_68_IMPORTER"))
-                {
-                    symbols.Add("UNIVRM_0_68_IMPORTER");
-                }
-
-                symbols.Remove("UNIVRM_LEGACY_IMPORTER");
-                symbols.Remove("UNIVRM_0_77_IMPORTER");
+                symbols.Add("UNIVRM_0_68_IMPORTER");
             }
             else
             {
-                if (!symbols.Contains("UNIVRM_0_77_IMPORTER"))
-                {
-                    symbols.Add("UNIVRM_0_77_IMPORTER");
-                }
-
-                symbols.Remove("UNIVRM_LEGACY_IMPORTER");
-                symbols.Remove("UNIVRM_0_68_IMPORTER");
+                symbols.Add("UNIVRM_0_77_IMPORTER");
             }
 
             // Exporter
+            symbols.Remove("UNIVRM_0_71_EXPORTER");
+            symbols.Remove("UNIVRM_0_75_EXPORTER");
+            symbols.Remove("UNIVRM_0_79_EXPORTER");
+            symbols.Remove("UNIVRM_LEGACY_EXPORTER");
             if (version.Value.major == 0 && version.Value.minor < 71)
             {
-                if (!symbols.Contains("UNIVRM_LEGACY_EXPORTER"))
-                {
-                    symbols.Add("UNIVRM_LEGACY_EXPORTER");
-                }
-
-                symbols.Remove("UNIVRM_0_71_EXPORTER");
+                symbols.Add("UNIVRM_LEGACY_EXPORTER");
+            }
+            else if (version.Value.major == 0 && version.Value.minor < 75)
+            {
+                symbols.Add("UNIVRM_0_71_EXPORTER");
+            }
+            else if (version.Value.major == 0 && version.Value.minor < 79)
+            {
+                symbols.Add("UNIVRM_0_75_EXPORTER");
             }
             else
             {
-                if (!symbols.Contains("UNIVRM_0_71_EXPORTER"))
-                {
-                    symbols.Add("UNIVRM_0_71_EXPORTER");
-                }
-
-                symbols.Remove("UNIVRM_LEGACY_EXPORTER");
+                symbols.Add("UNIVRM_0_79_EXPORTER");
             }
 
             PlayerSettings.SetScriptingDefineSymbolsForGroup(EditorUserBuildSettings.selectedBuildTargetGroup, string.Join(";", symbols));
