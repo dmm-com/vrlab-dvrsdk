@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+#if UNIVRM_0_77_IMPORTER
+using UniGLTF;
+#endif
 #if UNIVRM_0_68_IMPORTER
 using UniGLTF;
 #endif
@@ -13,9 +16,15 @@ namespace DVRSDK.Avatar
 {
     public class VRMLoader : IDisposable
     {
+#if UNIVRM_0_77_IMPORTER
         private VRMImporterContext currentContext;
-
+        private RuntimeGltfInstance currentInstance;
+        public GameObject Model => currentInstance == null ? null : currentInstance.Root;
+#else
+        private VRMImporterContext currentContext;
         public GameObject Model => currentContext == null ? null : currentContext.Root;
+#endif
+
 
         /// <summary>
         /// 読み込んだモデルを実際に表示する
@@ -25,7 +34,11 @@ namespace DVRSDK.Avatar
             if (Model == null)
                 throw new InvalidOperationException("Need to load VRM model first.");
 
+#if UNIVRM_0_77_IMPORTER
+            currentInstance.ShowMeshes();
+#else
             currentContext.ShowMeshes();
+#endif
 
 #if UNIVRM_0_68_IMPORTER
             currentContext.DisposeOnGameObjectDestroyed();
@@ -111,6 +124,14 @@ namespace DVRSDK.Avatar
             currentContext.Load();
 
             return currentContext.Root;
+#elif UNIVRM_0_77_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            var data = parser.Parse();
+            
+            currentContext = new VRMImporterContext(data);
+            currentInstance = currentContext.Load();
+
+            return currentInstance.Root;
 #else
             return null;
 #endif
@@ -167,6 +188,19 @@ namespace DVRSDK.Avatar
             await currentContext.LoadAsync();
 
             return currentContext.Root;
+#elif UNIVRM_0_77_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            GltfData data = null;
+
+            await Task.Run(() =>
+            {
+                data = parser.Parse();
+            });
+
+            currentContext = new VRMImporterContext(data);
+            currentInstance = await currentContext.LoadAsync();
+
+            return currentInstance.Root;
 #else
             return null;
 #endif
@@ -231,6 +265,17 @@ namespace DVRSDK.Avatar
             var parser = new GltfParser();
             await Task.Run(() => parser.ParseGlb(vrmByteArray));
             currentContext = new VRMImporterContext(parser);
+#elif UNIVRM_0_77_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            GltfData data = null;
+
+            await Task.Run(() =>
+            {
+                data = parser.Parse();
+            });
+
+            currentContext = new VRMImporterContext(data);
+            currentInstance = null;
 #else
 #endif
         }
