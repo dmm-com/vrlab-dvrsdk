@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UniGLTF;
 using UnityEngine;
 using VRM;
-#if UNIVRM_0_71_EXPORTER || UNIVRM_0_75_EXPORTER || UNIVRM_0_79_EXPORTER
+#if UNIVRM_0_71_EXPORTER || UNIVRM_0_79_EXPORTER
 using VRMShaders;
 #endif
 
@@ -109,8 +109,10 @@ namespace DVRSDK.Test
             var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, _ => false);
             return gltf.ToGlbBytes();
 #elif UNIVRM_0_75_EXPORTER
-            var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, new RuntimeTextureSerializer());
-            return gltf.ToGlbBytes();
+#error untested because UniVRM Assembly loading issue (0.75~0.78)
+            //var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, new RuntimeTextureSerializer());
+            //return gltf.ToGlbBytes();
+            throw new System.NotImplementedException("untested because UniVRM Assembly loading issue (0.75~0.78)");
 #elif UNIVRM_0_79_EXPORTER
             var gltf = VRMExporter.Export(new GltfExportSettings(), vrm, new RuntimeTextureSerializer());
             return gltf.ToGlbBytes();
