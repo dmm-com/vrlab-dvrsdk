@@ -8,6 +8,7 @@ using VRM;
 using VRMShaders;
 #endif
 
+
 namespace DVRSDK.Test
 {
     public class AvatarUploadManager : MonoBehaviour
@@ -108,10 +109,10 @@ namespace DVRSDK.Test
             var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, _ => false);
             return gltf.ToGlbBytes();
 #elif UNIVRM_0_75_EXPORTER
-            var gltf = VRMExporter.Export(new GltfExportSettings(), vrm, _ => false);
+            var gltf = VRMExporter.Export(MeshExportSettings.Default, vrm, new RuntimeTextureSerializer());
             return gltf.ToGlbBytes();
 #elif UNIVRM_0_79_EXPORTER
-            var gltf = VRMExporter.Export(new GltfExportSettings(), vrm, /* ここを何とかする必要がある */　);
+            var gltf = VRMExporter.Export(new GltfExportSettings(), vrm, new RuntimeTextureSerializer());
             return gltf.ToGlbBytes();
 #else
             return null;
