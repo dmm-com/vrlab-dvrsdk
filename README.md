@@ -65,13 +65,9 @@ Oculus Lipsync Unity Integrationによるリップシンクのコンポーネン
   
 **zip内**
 
-- DMM VR Connect SDK 利用規約.pdf
+- LICENSE
 
-利用規約です。必ずお読みください
-
-- DMM VR Connect SDK ご利用ガイドライン.pdf
-
-ご利用にあたってのガイドラインです。使用前にご覧ください
+DVRSDKのライセンス表記です
 
 - README.md
 
