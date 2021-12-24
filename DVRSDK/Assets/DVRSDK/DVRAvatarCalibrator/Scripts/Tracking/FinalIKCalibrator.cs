@@ -132,38 +132,23 @@ namespace DVRSDK.Avatar.Tracking
 
         private void CopyMeshRenderersForShadow()
         {
-            foreach (var renderer in currentModel.GetComponentsInChildren<SkinnedMeshRenderer>(true))
+            foreach (var renderer in currentModel.GetComponentsInChildren<Renderer>(true))
             {
                 if (renderer.gameObject.layer == VRMFirstPerson.THIRDPERSON_ONLY_LAYER)
                 {
-                    var obj = UnityEngine.Object.Instantiate(renderer.gameObject, renderer.gameObject.transform.position, renderer.gameObject.transform.rotation);
-                    obj.transform.parent = renderer.gameObject.transform;
-                    obj.gameObject.layer = VRMFirstPerson.FIRSTPERSON_ONLY_LAYER;
-                    var skin = obj.GetComponent<SkinnedMeshRenderer>();
-                    skin.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+                    var shadowCaster = UnityEngine.Object.Instantiate(renderer.gameObject, renderer.gameObject.transform.position, renderer.gameObject.transform.rotation);
+                    shadowCaster.name = "ShadowCaster";
+                    shadowCaster.transform.parent = renderer.gameObject.transform;
+                    shadowCaster.gameObject.layer = VRMFirstPerson.FIRSTPERSON_ONLY_LAYER;
+                    var shadowCasterRenderer = shadowCaster.GetComponent<Renderer>();
+                    shadowCasterRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
-                    foreach (Transform child in obj.transform)
+                    foreach (Transform child in shadowCaster.transform)
                     {
                         GameObject.Destroy(child.gameObject);
                     }
-                    GeneratedGameObjects.Add(obj);
-                }
-            }
-            foreach (var renderer in currentModel.GetComponentsInChildren<MeshRenderer>(true))
-            {
-                if (renderer.gameObject.layer == VRMFirstPerson.THIRDPERSON_ONLY_LAYER)
-                {
-                    var obj = UnityEngine.Object.Instantiate(renderer.gameObject, renderer.gameObject.transform.position, renderer.gameObject.transform.rotation);
-                    obj.transform.parent = renderer.gameObject.transform;
-                    obj.gameObject.layer = VRMFirstPerson.FIRSTPERSON_ONLY_LAYER;
-                    var mesh = obj.GetComponent<MeshRenderer>();
-                    mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
 
-                    foreach (Transform child in obj.transform)
-                    {
-                        GameObject.Destroy(child.gameObject);
-                    }
-                    GeneratedGameObjects.Add(obj);
+                    GeneratedGameObjects.Add(shadowCaster);
                 }
             }
         }
