@@ -33,6 +33,7 @@ namespace DVRSDK.Editor
             symbols.Remove("UNIVRM_0_68_IMPORTER");
             symbols.Remove("UNIVRM_0_77_IMPORTER");
             symbols.Remove("UNIVRM_0_78_1_IMPORTER");
+            symbols.Remove("UNIVRM_0_82_1_IMPORTER");
             symbols.Remove("UNIVRM_LEGACY_IMPORTER");
             if (version.Value.major == 0 && version.Value.minor < 68)
             {
@@ -46,9 +47,13 @@ namespace DVRSDK.Editor
             {
                 symbols.Add("UNIVRM_0_77_IMPORTER");
             }
-            else
+            else if (version.Value.major == 0 && version.Value.minor < 83 && version.Value.patch < 1)
             {
                 symbols.Add("UNIVRM_0_78_1_IMPORTER");
+            }
+            else
+            {
+                symbols.Add("UNIVRM_0_82_1_IMPORTER");
             }
 
             // Exporter

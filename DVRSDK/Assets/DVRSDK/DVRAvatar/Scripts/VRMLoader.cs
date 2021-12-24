@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-#if UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER
+#if UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER
 using UniGLTF;
 #endif
 using UnityEngine;
@@ -16,7 +16,7 @@ namespace DVRSDK.Avatar
 #if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER
         private VRMImporterContext currentContext;
         public GameObject Model => currentContext == null ? null : currentContext.Root;
-#elif UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER
+#elif UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER
         private VRMImporterContext currentContext;
         private RuntimeGltfInstance currentInstance;
         public GameObject Model => currentInstance == null ? null : currentInstance.Root;
@@ -31,14 +31,14 @@ namespace DVRSDK.Avatar
         /// </summary>
         public void ShowMeshes()
         {
-#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER
             if (Model == null)
                 throw new InvalidOperationException("Need to load VRM model first.");
 #endif
 
 #if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER
             currentContext.ShowMeshes();
-#elif UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER
+#elif UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER
             currentInstance.ShowMeshes();
 #else
 #endif
@@ -143,6 +143,14 @@ namespace DVRSDK.Avatar
             currentInstance = currentContext.Load();
 
             return currentInstance.Root;
+#elif UNIVRM_0_82_1_IMPORTER
+            var gltfData = new GlbLowLevelParser(string.Empty, vrmByteArray).Parse();
+            var vrmData = new VRMData(gltfData);
+
+            currentContext = new VRMImporterContext(vrmData);
+            currentInstance = currentContext.Load();
+
+            return currentInstance.Root;
 #else
             return null;
 #endif
@@ -223,6 +231,21 @@ namespace DVRSDK.Avatar
             currentInstance = await currentContext.LoadAsync();
 
             return currentInstance.Root;
+#elif UNIVRM_0_82_1_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            GltfData gltfData = null;
+            VRMData vrmData = null;
+
+            await Task.Run(() =>
+            {
+                gltfData = parser.Parse();
+                vrmData = new VRMData(gltfData);
+            });
+
+            currentContext = new VRMImporterContext(vrmData);
+            currentInstance = await currentContext.LoadAsync();
+
+            return currentInstance.Root;
 #else
             return null;
 #endif
@@ -272,6 +295,12 @@ namespace DVRSDK.Avatar
             var data = parser.Parse();
 
             currentContext = new VRMImporterContext(data);
+#elif UNIVRM_0_82_1_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            var gltfData = parser.Parse();
+            var vrmData = new VRMData(gltfData);
+
+            currentContext = new VRMImporterContext(vrmData);
 #else
 #endif
         }
@@ -303,6 +332,19 @@ namespace DVRSDK.Avatar
 
             currentContext = new VRMImporterContext(data);
             currentInstance = null;
+#elif UNIVRM_0_82_1_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            GltfData gltfData = null;
+            VRMData vrmData = null;
+
+            await Task.Run(() =>
+            {
+                gltfData = parser.Parse();
+                vrmData = new VRMData(gltfData);
+            });
+
+            currentContext = new VRMImporterContext(vrmData);
+            currentInstance = null;
 #else
 #endif
         }
@@ -314,7 +356,7 @@ namespace DVRSDK.Avatar
         /// <returns>VRMMetaObject</returns>
         public VRMMetaObject GetMeta(bool createThumbnail)
         {
-#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER
             if (currentContext == null)
                 throw new InvalidOperationException("Need to initialize VRM model first.");
             return currentContext.ReadMeta(createThumbnail);
