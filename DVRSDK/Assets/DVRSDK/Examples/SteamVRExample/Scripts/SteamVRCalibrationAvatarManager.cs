@@ -33,8 +33,8 @@ namespace DVRSDK.Test
         private void OnAvatarLoaded(GameObject model)
         {
             CurrentModel = model;
-            DoCalibration();
             dmmVRConnectUI.SetupFirstPerson(FirstPersonCamera);
+            DoCalibration();
             dmmVRConnectUI.ShowVRM();
             dmmVRConnectUI.AddAutoBlink();
         }
