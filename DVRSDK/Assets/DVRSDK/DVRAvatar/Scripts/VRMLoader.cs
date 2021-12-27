@@ -417,6 +417,9 @@ namespace DVRSDK.Avatar
         public void Dispose()
         {
             currentContext?.Dispose();
+#if UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
+            currentInstance?.Dispose();
+#endif
         }
     }
 }

@@ -149,8 +149,6 @@ calibrator.DoCalibration();
 ```csharp
 vrmLoader.Dispose();
 ```
-GameObject.Destroy(CurrentModel);ではメッシュやテクスチャ等のリソースは解放されません(GC時に回収されます)。
-VRMLoader.Dispose()で明示的に解放する必要があります。
 
 ## テスト環境
 Windows 10 x64  
