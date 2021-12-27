@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-#if UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
+#if UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
 using UniGLTF;
 #endif
 using UnityEngine;
 using VRM;
+#if UNIVRM_0_87_IMPORTER
+using VRMShaders;
+#endif
 
 namespace DVRSDK.Avatar
 {
@@ -16,7 +19,7 @@ namespace DVRSDK.Avatar
 #if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER
         private VRMImporterContext currentContext;
         public GameObject Model => currentContext == null ? null : currentContext.Root;
-#elif UNIVRM_0_77_IMPORTER
+#elif UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
         private VRMImporterContext currentContext;
         private RuntimeGltfInstance currentInstance;
         public GameObject Model => currentInstance == null ? null : currentInstance.Root;
@@ -31,14 +34,14 @@ namespace DVRSDK.Avatar
         /// </summary>
         public void ShowMeshes()
         {
-#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
             if (Model == null)
                 throw new InvalidOperationException("Need to load VRM model first.");
 #endif
 
 #if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER
             currentContext.ShowMeshes();
-#elif UNIVRM_0_77_IMPORTER
+#elif UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
             currentInstance.ShowMeshes();
 #else
 #endif
@@ -128,10 +131,26 @@ namespace DVRSDK.Avatar
 
             return currentContext.Root;
 #elif UNIVRM_0_77_IMPORTER
+            var parser = new GltfParser();
+            parser.ParseGlb(vrmByteArray);
+
+            currentContext = new VRMImporterContext(parser);
+            currentInstance = currentContext.Load();
+
+            return currentInstance.Root;
+#elif UNIVRM_0_78_1_IMPORTER
             var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
             var data = parser.Parse();
             
             currentContext = new VRMImporterContext(data);
+            currentInstance = currentContext.Load();
+
+            return currentInstance.Root;
+#elif UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
+            var gltfData = new GlbLowLevelParser(string.Empty, vrmByteArray).Parse();
+            var vrmData = new VRMData(gltfData);
+
+            currentContext = new VRMImporterContext(vrmData);
             currentInstance = currentContext.Load();
 
             return currentInstance.Root;
@@ -192,6 +211,17 @@ namespace DVRSDK.Avatar
 
             return currentContext.Root;
 #elif UNIVRM_0_77_IMPORTER
+            var parser = new GltfParser();
+            await Task.Run(() =>
+            {
+                parser.ParseGlb(vrmByteArray);
+            });
+
+            currentContext = new VRMImporterContext(parser);
+            currentInstance = await currentContext.LoadAsync();
+
+            return currentInstance.Root;
+#elif UNIVRM_0_78_1_IMPORTER
             var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
             GltfData data = null;
 
@@ -202,6 +232,28 @@ namespace DVRSDK.Avatar
 
             currentContext = new VRMImporterContext(data);
             currentInstance = await currentContext.LoadAsync();
+
+            return currentInstance.Root;
+#elif UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            GltfData gltfData = null;
+            VRMData vrmData = null;
+
+            await Task.Run(() =>
+            {
+                gltfData = parser.Parse();
+                vrmData = new VRMData(gltfData);
+            });
+
+            currentContext = new VRMImporterContext(vrmData);
+#if UNIVRM_0_82_1_IMPORTER
+            IAwaitCaller awaitCaller = null;
+#else
+            IAwaitCaller awaitCaller = new RuntimeOnlyAwaitCaller();
+#endif
+            Debug.Log($"{Time.frameCount}, {Time.realtimeSinceStartup}");
+            currentInstance = await currentContext.LoadAsync(awaitCaller);
+            Debug.Log($"{Time.frameCount}, {Time.realtimeSinceStartup}");
 
             return currentInstance.Root;
 #else
@@ -244,10 +296,21 @@ namespace DVRSDK.Avatar
 
             // GLB形式でJSONを取得しParseします
             currentContext.ParseGlb(vrmByteArray);
-#elif UNIVRM_0_68_IMPORTER
+#elif UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
             var parser = new GltfParser();
             parser.ParseGlb(vrmByteArray);
             currentContext = new VRMImporterContext(parser);
+#elif UNIVRM_0_78_1_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            var data = parser.Parse();
+
+            currentContext = new VRMImporterContext(data);
+#elif UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            var gltfData = parser.Parse();
+            var vrmData = new VRMData(gltfData);
+
+            currentContext = new VRMImporterContext(vrmData);
 #else
 #endif
         }
@@ -264,11 +327,11 @@ namespace DVRSDK.Avatar
 
             // GLB形式でJSONを取得しParseします
             await Task.Run(() => currentContext.ParseGlb(vrmByteArray));
-#elif UNIVRM_0_68_IMPORTER
+#elif UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
             var parser = new GltfParser();
             await Task.Run(() => parser.ParseGlb(vrmByteArray));
             currentContext = new VRMImporterContext(parser);
-#elif UNIVRM_0_77_IMPORTER
+#elif UNIVRM_0_78_1_IMPORTER
             var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
             GltfData data = null;
 
@@ -278,6 +341,19 @@ namespace DVRSDK.Avatar
             });
 
             currentContext = new VRMImporterContext(data);
+            currentInstance = null;
+#elif UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
+            var parser = new GlbLowLevelParser(string.Empty, vrmByteArray);
+            GltfData gltfData = null;
+            VRMData vrmData = null;
+
+            await Task.Run(() =>
+            {
+                gltfData = parser.Parse();
+                vrmData = new VRMData(gltfData);
+            });
+
+            currentContext = new VRMImporterContext(vrmData);
             currentInstance = null;
 #else
 #endif
@@ -290,7 +366,7 @@ namespace DVRSDK.Avatar
         /// <returns>VRMMetaObject</returns>
         public VRMMetaObject GetMeta(bool createThumbnail)
         {
-#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER
+#if UNIVRM_LEGACY_IMPORTER || UNIVRM_0_68_IMPORTER || UNIVRM_0_77_IMPORTER || UNIVRM_0_78_1_IMPORTER || UNIVRM_0_82_1_IMPORTER || UNIVRM_0_87_IMPORTER
             if (currentContext == null)
                 throw new InvalidOperationException("Need to initialize VRM model first.");
             return currentContext.ReadMeta(createThumbnail);

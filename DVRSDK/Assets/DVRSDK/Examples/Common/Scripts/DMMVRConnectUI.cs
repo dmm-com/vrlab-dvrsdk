@@ -204,7 +204,7 @@ namespace DVRSDK.Test
             SetLog("Loading VRM.\nWait a moment,please.");
             try
             {
-                CurrentModel = await Authentication.Instance.Okami.LoadAvatarVRMAsync(avatarModel, vrmLoader.LoadVRMModelFromConnect) as GameObject;
+                CurrentModel = await Authentication.Instance.Okami.LoadAvatarVRMAsync(avatarModel, vrmLoader.LoadVRMModelFromConnectAsync) as GameObject;
             }
             catch (ApiRequestException ex)
             {
@@ -233,13 +233,13 @@ namespace DVRSDK.Test
 
         private async void SelectModel(AvatarModel model) => await LoadAvatar(model);
 
-        public void LoadLocalVRM()
+        public async void LoadLocalVRM()
         {
 #if UNITY_STANDALONE_WIN
             var path = WindowsDialogs.OpenFileDialog("Open VRM File", ".vrm");
             if (path != null)
             {
-                CurrentModel = vrmLoader.LoadVrmModelFromFile(path);
+                CurrentModel = await vrmLoader.LoadVrmModelFromFileAsync(path);
                 OnAvatarLoaded(CurrentModel);
             }
 #endif
