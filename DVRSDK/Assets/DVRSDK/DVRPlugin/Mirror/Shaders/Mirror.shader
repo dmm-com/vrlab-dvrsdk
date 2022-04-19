@@ -4,7 +4,7 @@ Shader "DVRSDK/Mirror"
 	{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		[HideInInspector] _ReflectionTex("", 2D) = "white" {}
-		_Stereo("Steleo Mode", int) = 0
+		[HideInInspector] _IsStereo("Stereo Mode", int) = 0
 	}
 	SubShader
 	{
@@ -19,7 +19,7 @@ Shader "DVRSDK/Mirror"
 			#include "UnityStandardCore.cginc"
 
 			sampler2D _ReflectionTex;
-			int _Stereo;
+			int _IsStereo;
 
 			struct v2f
 			{
@@ -45,12 +45,11 @@ Shader "DVRSDK/Mirror"
 				// シングルパスステレオレンダリングではない時ComputeScreenPosはサイドバイサイド画像から正しい座標を返しません
 				// ProjectionMatrixの水平方向のスキューが0より小であれば左目用で、0より大であれば右目用のレンダリングパスです
 
-				// 20220419 Reiya1013
 				// OculusのVirtual DesktopだとProjectionMatrixで右目左目を取れないのでunity_StereoEyeIndexで取得するように変更
-				// デスクトップでも左目の処理に入ってしまうため、StermVRMirror.csからSterelの情報を入力
+				// デスクトップでも左目の処理に入ってしまうため、StermVRMirror.csからStereoの情報を入力
 
 #ifndef UNITY_SINGLE_PASS_STEREO				
-				if (_Stereo == 1)
+				if (_IsStereo == 1)
 				{
 					if (unity_StereoEyeIndex == 0)
 					{
