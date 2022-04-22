@@ -4,7 +4,8 @@ Shader "DVRSDK/Mirror"
 	{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		[HideInInspector] _ReflectionTex("", 2D) = "white" {}
-		[HideInInspector] _IsStereo("Stereo Mode", int) = 0
+		//0:NonStereo 1:従来方法 2:VirtualDesktop対応
+		[HideInInspector] _StereoMode("Stereo Mode", int) = 0
 	}
 	SubShader
 	{
@@ -19,7 +20,7 @@ Shader "DVRSDK/Mirror"
 			#include "UnityStandardCore.cginc"
 
 			sampler2D _ReflectionTex;
-			int _IsStereo;
+			int _StereoMode;
 
 			struct v2f
 			{
@@ -49,7 +50,7 @@ Shader "DVRSDK/Mirror"
 				// デスクトップでも左目の処理に入ってしまうため、StermVRMirror.csからStereoの情報を入力
 
 #ifndef UNITY_SINGLE_PASS_STEREO				
-				if (_IsStereo == 1)
+				if (_StereoMode == 1)
 				{
 					if (unity_CameraProjection[0][2] < 0)
 					{
@@ -60,7 +61,7 @@ Shader "DVRSDK/Mirror"
 						o.refl.x = (o.refl.x * 0.5f) + (o.refl.w * 0.5f);
 					}
 				}
-				else if (_IsStereo == 2)
+				else if (_StereoMode == 2)
 				{
 					if (unity_StereoEyeIndex == 0)
 					{
@@ -72,7 +73,6 @@ Shader "DVRSDK/Mirror"
 					}
 				}
 #endif
-
 				return o;
 			}
 
