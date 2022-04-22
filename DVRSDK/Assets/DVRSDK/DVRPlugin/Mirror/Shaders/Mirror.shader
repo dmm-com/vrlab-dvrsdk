@@ -51,6 +51,17 @@ Shader "DVRSDK/Mirror"
 #ifndef UNITY_SINGLE_PASS_STEREO				
 				if (_IsStereo == 1)
 				{
+					if (unity_CameraProjection[0][2] < 0)
+					{
+						o.refl.x = (o.refl.x * 0.5f);
+					}
+					else if (unity_CameraProjection[0][2] > 0)
+					{
+						o.refl.x = (o.refl.x * 0.5f) + (o.refl.w * 0.5f);
+					}
+				}
+				else if (_IsStereo == 2)
+				{
 					if (unity_StereoEyeIndex == 0)
 					{
 						o.refl.x = (o.refl.x * 0.5f);
