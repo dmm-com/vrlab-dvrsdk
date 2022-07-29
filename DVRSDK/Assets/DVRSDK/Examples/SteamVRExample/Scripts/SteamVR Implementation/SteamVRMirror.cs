@@ -13,6 +13,7 @@ namespace DVRSDK.Plugins
             // ステレオモード時は左右の目で別のレンダリングが必要
             if (currentCamera.stereoEnabled)
             {
+                mirrorSetting.propertyBlock.SetInt("_StereoMode", 2);
                 if (currentCamera.stereoTargetEye == StereoTargetEyeMask.Both || currentCamera.stereoTargetEye == StereoTargetEyeMask.Left)
                 {
                     RenderEyeMirror(mirrorSetting.texture, currentCamera, EVREye.Eye_Left);
@@ -25,6 +26,7 @@ namespace DVRSDK.Plugins
             }
             else
             {
+                mirrorSetting.propertyBlock.SetInt("_StereoMode", 0);
                 base.Render(mirrorSetting, currentCamera);
             }
         }
